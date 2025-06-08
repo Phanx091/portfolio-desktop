@@ -1,0 +1,123 @@
+J A S O N   P H A N 
+ F R O N T E N D   E N G I N E E R 
+ +1 612 325 1178   |  jason.jayphan@gmail.com  |  Los Angeles, CA    |  Linkedin.com/in/jason-phan-dev 
+ P  R O F I L E 
+ Frontend-focused  Full  Stack  Engineer  with  7+  years  of  experience  delivering  scalable,  high-performance  web  applications  using  React, 
+ TypeScript,  and  Next.js.  Proven  track  record  of  leading  component  libraries,  improving  accessibility,  and  building  user-centric  features  for 
+ platforms  serving  over  one  million  monthly  users.  Skilled  at  partnering  with  designers,  engineers,  and  product  teams  to  build  performant, 
+ accessible,  and  user-centric  web  applications.  Known  for  mentoring  engineers,  tackling  complex  UI  challenges,  and  raising  engineering 
+ standards  through  scalable,  maintainable  code.  Passionate  about  continuous  learning,  and  comfortable  thriving  in  lean  teams  or 
+ high-velocity environments. 
+ E X P E R I E N C E 
+ Frontend Engineer II 
+ American Public Media Group - Minnesota Public Radio  |  St.Paul, MN (Remote) | September 2021 - Present 
+ ● 
+ Deployed  an  always-on  internal  dashboard  across  all  MPR  facility  televisions  by  independently  designing  and  building  the  web 
+ application end to end. 
+ ● 
+ Streamlined  UI  consistency  and  improved  code  maintainability  by  building  an  internal  React  component  library  adopted  across 
+ 5+ applications. 
+ ● 
+ Standardized  audio  playback  across  all  MPR  applications  by  developing  a  customizable  React  audio  player  and  publishing  it  as 
+ an internal NPM package. 
+ ● 
+ Achieved  90th  percentile  Lighthouse  accessibility  scores  across  APMG  sites  by  enhancing  ARIA  attributes  and  improving 
+ accessibility practices. 
+ ● 
+ Delivered  polished,  user-friendly  experiences  by  collaborating  with  designers  and  backend  engineers  to  integrate  frontend 
+ features with APIs and scalable design systems. 
+ ● 
+ Improved  team  skills  and  end-user  outcomes  by  supporting  peer  development  through  mentorship,  pair  programming,  and 
+ knowledge sharing. 
+ ● 
+ Led  critical  feature  delivery  during  periods  of  reduced  engineering  capacity  ,  ensuring  consistent  output  and  code  quality  under 
+ tight resources. 
+ Associate Frontend Engineer 
+ American Public Media Group - Minnesota Public Radio  |  St. Paul, MN (Hybrid) | August 2018 - September  2021 
+ ● 
+ Modernized  web  infrastructure  and  improved  maintainability  by  migrating  10+  legacy  websites  from  outdated  platforms 
+ (Rails, Ember.js, PHP, WordPress, SquareSpace) to React, Next.js, and TypeScript. 
+ ● 
+ Streamlined  podcast  site  creation  by  implementing  a  custom  template  app  that  auto-generates  new  websites  from  config 
+ files—now powering 6+ APMG podcast sites. 
+ ● 
+ Improved  code  reliability  and  reduced  bugs  by  expanding  test  coverage  on  key  projects  (MPRnews,  TheCurrent, 
+ YourClassical) using Jest, Enzyme, and React Testing Library. 
+ ● 
+ Increased  team  efficiency  and  onboarding  clarity  by  contributing  to  internal  documentation  and  training  materials  for  newly 
+ implemented features. 
+ ● 
+ Improved  accessibility  and  user  experience  by  auditing  legacy  pages  and  updating  them  to  meet  WCAG  2.1  standards, 
+ contributing to consistently high Lighthouse scores across migrated sites. 
+
+ E X P E R I E N C E  -  C O N T I N U E D 
+ Freelance Full Stack Engineer 
+ Fiverr  |  Minneapolis, MN (Remote) | December 2018  - November 2021 
+ ● 
+ Built  custom  websites  for  a  wide  range  of  clients,  including  clothing  brands,  personal  portfolios,  and  product-based 
+ businesses, tailored to their specific design and functional needs. 
+ ● 
+ Delivered  seamless  user  experiences  by  translating  client  vision  into  performant,  responsive,  and  visually  engaging  web 
+ solutions. 
+ ● 
+ Provided  post-launch  support  to  ensure  long-term  functionality,  performance  optimization,  and  ongoing  security  after  project 
+ delivery. 
+ ● 
+ Enabled  client  independence  by  producing  video  tutorials  that  guided  them  through  updating  and  managing  content  via  the 
+ CMS. 
+ Freelance Full Stack Software Engineer 
+ CaringBridge  |  Minneapolis, MN | July 2018 - July  2021 
+ ● 
+ Delivered  a  full-featured  CRUD  application  within  4  weeks  as  part  of  a  5-person  team,  ensuring  timely  delivery,  clean  code 
+ structure, and alignment with project goals. 
+ ● 
+ Improved  data  processing  efficiency  by  building  tools  to  streamline  the  ingestion  and  dynamic  handling  of  large  datasets, 
+ enhancing the platform's performance and reliability. 
+ ● 
+ Enhanced  platform  security  by  developing  features  to  automatically  detect  and  fla g  malicious  websites,  reducing  user 
+ exposure to harmful content. 
+ ● 
+ Strengthened  administrative  control  by  implementing  user  deactivation  functionality,  giving  admins  more  oversight  and 
+ improving platform integrity. 
+ Mentor Full Stack Software Engineer 
+ Prime Digital Academy  |  Minneapolis, MN (Hybrid) |  December 2018 - November 2020 
+ ● 
+ Fostered  student  growth  and  professional  connections  by  leading  bi-weekly  mentorship  sessions,  pairing  3–4  students  with 
+ working developers to support talent development and industry networking. 
+ ● 
+ Accelerated  career  progression  for  junior  developers  by  providing  mentorship  focused  on  skill-building,  real-world 
+ application, and long-term professional growth toward mid-level and senior roles. 
+ T E C H N I C A L   S K I L L S 
+ Frontend  –  JavaScript, React, TypeScript, Next.js,  HTML5, CSS3, Flexbox, CSS Grid, SASS, Webpack, Context API, Redux, Apollo Client 
+ Backend  –  Node.js, Ruby, Ruby on Rails, GraphQL, Express.js 
+ Databases  – PostgreSQL,  DynamoDB (single-table design) 
+ Cloud & DevOps  –  AWS (S3, Lambda, Cognito, CloudWatch),  Docker, GitHub Actions, GitLab 
+ Testing  –  Jest, Enzyme, React Testing Library, RSpec 
+ Dev Tools & Practices  –  Postman, Chrome DevTools,  Figma, ESLint, Prettier, Husky, RuboCop 
+ Security & Monitoring  – JWT, reCAPTCHA, AWS  CloudWatch,  Google Analytics, VWO, Google Tag Manager, Salesforce Marketing Cloud 
+ Standards & Accessibility  – SEO, WCAG 2.1 compliance 
+ SDLC & Architecture  –  Agile development, MVC, issue  tracking and project management via GitLab 
+ P R O J E C T S 
+ Studio Monitors app  - Javascript, React, TypeScript,  Nextjs, GraphQl, Moment, Jest, RestAPI 
+ ● 
+ Independently  designed,  built,  and  deployed  an  always-on  internal  dashboard  displayed  across  all  company  facility  televisions. 
+ The  app  features  real-time  data  on  what's  currently  playing  across  the  company's  radio  stations  (The  Current,  YourClassical), 
+ daily weather updates, featured top stories from MPR News, and internal company announcements. 
+ Hack_feeds  app  - Javascript, React, Redux, Saga, Axios,  Node, Express, Passport.js, PostgreSQL, Material UI 
+ ● 
+ Developed  a  web  mobile  application  that  allows  a  user  to  favourite  rss  feeds  source  and  view  multiple  rss  sources  all  at  the 
+ same time. A replica of feedly. 
+
+ E D U C A T I O N 
+ Full Stack Software Engineer Certification 
+ Software Engineering 
+ Prime Digital Academy 
+ Bachelor of Science 
+ Psychology 
+ University of Minnesota - Twin Cities 
+ Associate of Science 
+ Engineering 
+ Anoka Ramsey Community College 
+ E X T R A S 
+ Eppy Award 
+ Best Local Radio News website  |  MPRnews.org | 2021

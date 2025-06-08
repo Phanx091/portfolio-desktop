@@ -1,0 +1,212 @@
+.container {
+  position: absolute;
+  inset: 0;
+}
+
+.iconsGrid {
+  position: absolute;
+  left: var(--spacing-xl);
+  top: var(--spacing-xl);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--desktop-icon-spacing);
+}
+
+.iconsGridMobile {
+  position: absolute;
+  left: var(--spacing-md);
+  top: var(--spacing-md);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--desktop-icon-spacing-mobile);
+}
+
+.iconWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.iconContainer {
+  position: relative;
+}
+
+.iconBackground {
+  width: var(--desktop-icon-size);
+  height: var(--desktop-icon-size);
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-text-disabled);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-surface);
+}
+
+.iconBackgroundMobile {
+  width: var(--desktop-icon-size-mobile);
+  height: var(--desktop-icon-size-mobile);
+}
+
+.iconBackgroundBrowser {
+  background: linear-gradient(135deg, var(--color-blue), #2563eb);
+  border-color: var(--color-blue);
+}
+
+.iconBackgroundWork {
+  background: linear-gradient(135deg, var(--color-orange), #ea580c);
+  border-color: var(--color-orange);
+}
+
+.iconHoverOverlay {
+  position: absolute;
+  inset: -1px;
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+  border-radius: var(--radius-lg);
+}
+
+.iconHoverOverlayDefault {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.2));
+}
+
+.iconHoverOverlayBrowser {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.2));
+}
+
+.iconHoverOverlayWork {
+  background: linear-gradient(135deg, rgba(249, 115, 22, 0.2), rgba(234, 88, 12, 0.2));
+}
+
+.iconWrapper:hover .iconHoverOverlay {
+  opacity: 1;
+}
+
+.iconGlow {
+  position: absolute;
+  inset: -1px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-lg);
+  opacity: 0;
+  blur: 4px;
+  transition: opacity var(--transition-normal);
+}
+
+.iconGlowBrowser {
+  background: linear-gradient(to right, var(--color-blue), #2563eb);
+}
+
+.iconGlowWork {
+  background: linear-gradient(to right, var(--color-orange), #ea580c);
+}
+
+.iconWrapper:hover .iconGlow {
+  opacity: 0.3;
+}
+
+.icon {
+  width: var(--icon-xl);
+  height: var(--icon-xl);
+  position: relative;
+  z-index: 10;
+  color: var(--color-text-primary);
+}
+
+.iconMobile {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+}
+
+.iconCyan {
+  color: var(--color-cyan);
+}
+.iconPurple {
+  color: var(--color-purple);
+}
+.iconOrange {
+  color: var(--color-orange);
+}
+.iconGreen {
+  color: var(--color-green);
+}
+.iconPink {
+  color: var(--color-pink);
+}
+.iconBlue {
+  color: var(--color-blue);
+}
+.iconGray {
+  color: var(--color-gray);
+}
+.iconRed {
+  color: var(--color-red);
+}
+
+.iconLabel {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  margin-top: var(--spacing-sm);
+  text-align: center;
+  transition: color var(--transition-normal);
+}
+
+.iconLabelMobile {
+  font-size: var(--font-size-xs);
+}
+
+.iconWrapper:hover .iconLabel {
+  color: var(--color-cyan);
+}
+
+.iconWrapper:hover .iconLabelTrash {
+  color: var(--color-text-secondary);
+}
+
+.trashIcon {
+  width: var(--desktop-icon-size);
+  height: var(--desktop-icon-size);
+  color: var(--color-gray);
+}
+
+.trashIconMobile {
+  width: var(--desktop-icon-size-mobile);
+  height: var(--desktop-icon-size-mobile);
+}
+
+.trashIconFull {
+  color: var(--color-red);
+}
+
+.trashIconHover {
+  color: #fca5a5;
+}
+
+.trashBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: var(--spacing-md);
+  height: var(--spacing-md);
+  background-color: var(--color-red);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.trashBadgeMobile {
+  width: var(--spacing-sm);
+  height: var(--spacing-sm);
+}
+
+.trashBadgeText {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+}
+
+.trashBadgeTextMobile {
+  font-size: 10px;
+}

@@ -1,0 +1,143 @@
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: var(--taskbar-height);
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(var(--backdrop-blur-sm));
+  border-top: 1px solid var(--color-text-disabled);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--spacing-md);
+}
+
+.taskbarMobile {
+  height: var(--taskbar-height-mobile);
+}
+
+.startSection {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.startButton {
+  width: var(--icon-lg);
+  height: var(--icon-lg);
+  background: var(--gradient-primary);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-primary);
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  border: none;
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.startButtonMobile {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: var(--font-size-base);
+}
+
+.startButton:hover {
+  transform: scale(1.05);
+}
+
+.startButton:active {
+  transform: scale(0.95);
+}
+
+.windowsList {
+  display: flex;
+  gap: var(--spacing-sm);
+  overflow-x: auto;
+}
+
+.windowsListMobile {
+  gap: var(--spacing-xs);
+}
+
+.windowButton {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  background: var(--color-surface);
+  color: var(--color-text-primary);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-xs);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: background-color var(--transition-normal);
+  white-space: nowrap;
+  border: none;
+  cursor: pointer;
+}
+
+.windowButtonMobile {
+  padding: var(--spacing-xs);
+  font-size: 10px;
+}
+
+.windowButton:hover {
+  background: var(--color-text-disabled);
+}
+
+.windowButtonIcon {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+}
+
+.windowButtonIconMobile {
+  width: 12px;
+  height: 12px;
+}
+
+.windowButtonText {
+  display: inline;
+}
+
+.windowButtonTextMobile {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .windowButtonTextMobile {
+    display: inline;
+  }
+}
+
+.systemTray {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  color: var(--color-text-secondary);
+}
+
+.systemTrayMobile {
+  gap: var(--spacing-sm);
+}
+
+.systemIcons {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.systemIcon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+}
+
+.clock {
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-sm);
+}
+
+.clockMobile {
+  font-size: var(--font-size-xs);
+}

@@ -1,0 +1,45 @@
+.container {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.grid {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+}
+
+.gridSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.gridPattern {
+  stroke: var(--color-cyan);
+  stroke-width: 1;
+  fill: none;
+}
+
+.particle {
+  position: absolute;
+  background-color: var(--color-cyan);
+  border-radius: var(--radius-full);
+  opacity: 0.3;
+}
+
+.mouseGlow {
+  position: absolute;
+  inset: 0;
+}
+
+.codeFlow {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  color: var(--color-green);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-xs);
+  white-space: pre-line;
+}

@@ -1,0 +1,46 @@
+.desktop {
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  background: var(--gradient-background);
+}
+
+.parallaxContainer {
+  position: absolute;
+  inset: 0;
+}
+
+.terminalContainer {
+  position: absolute;
+  top: var(--spacing-xl);
+  right: var(--spacing-xl);
+  width: 24rem; /* Increased from 24rem to maintain good size */
+  height: 20rem; /* Increased from 16rem to 20rem */
+}
+
+.terminalContainerMobile {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 20rem; /* Increased from 12rem to 20rem */
+  height: 16rem; /* Increased from 8rem to 16rem */
+}
+
+/* Add responsive breakpoints for better mobile experience */
+@media (max-width: 480px) {
+  .terminalContainerMobile {
+    width: calc(
+      100vw - 2rem
+    ); /* Full width minus padding on very small screens */
+    height: 12rem; /* Slightly smaller height on very small screens */
+    right: var(--spacing-md);
+  }
+}
+
+@media (min-width: 481px) and (max-width: 768px) {
+  .terminalContainerMobile {
+    width: 18rem; /* Medium size for tablet portrait */
+    height: 14rem;
+  }
+}

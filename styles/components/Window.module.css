@@ -1,0 +1,186 @@
+.window {
+  position: absolute;
+  pointer-events: auto;
+  user-select: none;
+}
+
+.windowContainer {
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(var(--backdrop-blur-sm));
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Resize Handles */
+.resizeHandle {
+  position: absolute;
+  z-index: 10;
+}
+
+.resizeHandleTopLeft {
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  cursor: nw-resize;
+}
+
+.resizeHandleTopRight {
+  top: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  cursor: ne-resize;
+}
+
+.resizeHandleBottomLeft {
+  bottom: 0;
+  left: 0;
+  width: 12px;
+  height: 12px;
+  cursor: ne-resize;
+}
+
+.resizeHandleBottomRight {
+  bottom: 0;
+  right: 0;
+  width: 12px;
+  height: 12px;
+  cursor: nw-resize;
+}
+
+.resizeHandleTop {
+  top: 0;
+  left: 12px;
+  right: 12px;
+  height: 4px;
+  cursor: ns-resize;
+}
+
+.resizeHandleBottom {
+  bottom: 0;
+  left: 12px;
+  right: 12px;
+  height: 4px;
+  cursor: ns-resize;
+}
+
+.resizeHandleLeft {
+  left: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  cursor: ew-resize;
+}
+
+.resizeHandleRight {
+  right: 0;
+  top: 12px;
+  bottom: 12px;
+  width: 4px;
+  cursor: ew-resize;
+}
+
+/* Title Bar */
+.titleBar {
+  background: linear-gradient(to right, var(--color-surface), var(--color-surface-light));
+  padding: var(--spacing-sm) var(--spacing-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-text-disabled);
+  cursor: move;
+  position: relative;
+  z-index: 20;
+}
+
+.titleBarContent {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+}
+
+.titleBarIcon {
+  width: var(--icon-sm);
+  height: var(--icon-sm);
+  color: var(--color-cyan);
+}
+
+.titleBarIconMobile {
+  width: var(--icon-xs);
+  height: var(--icon-xs);
+}
+
+.titleBarText {
+  color: var(--color-text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+}
+
+.titleBarTextMobile {
+  font-size: var(--font-size-xs);
+}
+
+.titleBarButtons {
+  display: flex;
+  gap: var(--spacing-sm);
+}
+
+.titleBarButton {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--radius-full);
+  transition: background-color var(--transition-fast);
+  border: none;
+  cursor: pointer;
+}
+
+.titleBarButtonMobile {
+  width: 16px;
+  height: 16px;
+}
+
+.titleBarButtonRed {
+  background-color: var(--color-red);
+}
+
+.titleBarButtonRed:hover {
+  background-color: #dc2626;
+}
+
+.titleBarButtonYellow {
+  background-color: var(--color-yellow);
+}
+
+.titleBarButtonYellow:hover {
+  background-color: #ca8a04;
+}
+
+.titleBarButtonGreen {
+  background-color: var(--color-green);
+}
+
+.titleBarButtonGreen:hover {
+  background-color: #16a34a;
+}
+
+.titleBarButtonGreenMaximized {
+  background-color: #16a34a;
+}
+
+.titleBarButtonGreenMaximized:hover {
+  background-color: var(--color-green);
+}
+
+/* Content */
+.content {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  z-index: 10;
+}
