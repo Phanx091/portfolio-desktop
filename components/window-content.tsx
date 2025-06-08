@@ -1944,31 +1944,31 @@ export default function WindowContent({
                 </h3>
                 <div className="space-y-4">
                   {/* Main images grid */}
-                  <div className={`grid ${isMobile ? 'grid-cols-1' : 'grid-cols-2'} gap-4`}>
+                  <div className={`grid w-full ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} gap-4`}>
                     {selectedWorkProject.screenshots
-                      .slice(currentImageIndex, currentImageIndex + (isMobile ? 1 : 2))
+                      .slice(currentImageIndex, currentImageIndex + (isMobile ? 1 : 3))
                       .map((screenshot: string, index: number) => (
                         <div 
                           key={index} 
-                          className="relative cursor-pointer"
+                          className="relative cursor-pointer w-full overflow-hidden"
                           onClick={() => setFullscreenImage(screenshot)}
                         >
                           <img
                             src={screenshot || "/placeholder.svg"}
                             alt={`${selectedWorkProject.title} screenshot ${currentImageIndex + index + 1}`}
-                            className="w-full h-64 object-cover rounded-lg border border-gray-700 hover:opacity-90 transition-opacity"
+                            className="w-full h-80 object-cover object-top rounded-lg border border-gray-700 hover:opacity-90 transition-opacity bg-black/20"
                           />
                         </div>
                     ))}
                   </div>
 
                   {/* Navigation buttons */}
-                  {selectedWorkProject.screenshots.length > (isMobile ? 1 : 2) && (
-                    <div className="flex justify-center gap-4 mt-4">
+                  {selectedWorkProject.screenshots.length > (isMobile ? 1 : 3) && (
+                    <div className="flex justify-center gap-4 mt-6">
                       <button
                         onClick={() =>
                           setCurrentImageIndex(
-                            Math.max(0, currentImageIndex - (isMobile ? 1 : 2))
+                            Math.max(0, currentImageIndex - 1)
                           )
                         }
                         disabled={currentImageIndex === 0}
@@ -1980,14 +1980,14 @@ export default function WindowContent({
                         onClick={() =>
                           setCurrentImageIndex(
                             Math.min(
-                              selectedWorkProject.screenshots.length - (isMobile ? 1 : 2),
-                              currentImageIndex + (isMobile ? 1 : 2)
+                              selectedWorkProject.screenshots.length - 3,
+                              currentImageIndex + 1
                             )
                           )
                         }
                         disabled={
                           currentImageIndex >=
-                          selectedWorkProject.screenshots.length - (isMobile ? 1 : 2)
+                          selectedWorkProject.screenshots.length - 3
                         }
                         className="bg-black/50 text-white p-2 rounded-full disabled:opacity-50"
                       >
@@ -1997,7 +1997,7 @@ export default function WindowContent({
                   )}
 
                   {/* Thumbnail navigation */}
-                  {selectedWorkProject.screenshots.length > (isMobile ? 1 : 2) && (
+                  {selectedWorkProject.screenshots.length > (isMobile ? 1 : 3) && (
                     <div className="flex space-x-2 overflow-x-auto mt-4">
                       {selectedWorkProject.screenshots.map(
                         (screenshot: string, index: number) => (
@@ -2013,7 +2013,7 @@ export default function WindowContent({
                             <img
                               src={screenshot || "/placeholder.svg"}
                               alt={`Thumbnail ${index + 1}`}
-                              className="w-full h-full object-cover"
+                              className="w-full h-full object-contain"
                             />
                           </button>
                         ),
