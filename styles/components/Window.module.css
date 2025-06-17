@@ -15,6 +15,12 @@
   position: relative;
 }
 
+/* Mobile safe area */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom, 2rem);
+  margin-bottom: 1rem;
+}
+
 /* Resize Handles */
 .resizeHandle {
   position: absolute;

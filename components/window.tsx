@@ -30,6 +30,7 @@ export default function Window({
   });
   const [resizeDirection, setResizeDirection] = useState("");
   const windowRef = useRef<HTMLDivElement>(null);
+  const constraintsRef = useRef<HTMLDivElement>(null);
 
   // For debugging
   useEffect(() => {
@@ -60,18 +61,11 @@ export default function Window({
         size: windowData.size,
       });
 
-      // Get current viewport dimensions safely
-      let viewportWidth = 1920;
-      let viewportHeight = 1080;
+      // Get current viewport dimensions
+      const viewportWidth = window.innerWidth;
+      const viewportHeight = window.innerHeight;
 
-      if (typeof globalThis !== "undefined" && globalThis.innerWidth) {
-        viewportWidth = globalThis.innerWidth;
-        viewportHeight = globalThis.innerHeight;
-      }
-
-      console.log("Maximizing window:", { viewportWidth, viewportHeight });
-
-      // Make window truly fullscreen (cover everything including taskbar)
+      // Make window truly fullscreen
       onUpdate({
         ...windowData,
         position: { x: 0, y: 0 },
@@ -166,136 +160,147 @@ export default function Window({
   };
 
   return (
-    <motion.div
-      ref={windowRef}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      drag={!isMaximized && !isResizing}
-      dragMomentum={false}
-      onDragStart={() => setIsDragging(true)}
-      onDragEnd={() => setIsDragging(false)}
-      className="absolute pointer-events-auto select-none"
-      style={{
-        left: windowData.position.x,
-        top: windowData.position.y,
-        width: windowData.size.width,
-        height: windowData.size.height,
-        zIndex: windowData.zIndex,
-      }}
-    >
-      <div className="bg-gray-900 border border-cyan-400/30 rounded-lg overflow-hidden h-full flex flex-col relative overflow-hidden">
-        {/* Resize Handles - Only show when not maximized and not mobile */}
-        {!isMaximized && !isMobile && (
-          <>
-            {/* Corner Handles */}
-            <div
-              className={`absolute top-0 left-0 w-3 h-3 ${getCursorStyle(
-                "top-left",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("top-left", e)}
-            />
-            <div
-              className={`absolute top-0 right-0 w-3 h-3 ${getCursorStyle(
-                "top-right",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("top-right", e)}
-            />
-            <div
-              className={`absolute bottom-0 left-0 w-3 h-3 ${getCursorStyle(
-                "bottom-left",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("bottom-left", e)}
-            />
-            <div
-              className={`absolute bottom-0 right-0 w-3 h-3 ${getCursorStyle(
-                "bottom-right",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("bottom-right", e)}
-            />
-
-            {/* Edge Handles */}
-            <div
-              className={`absolute top-0 left-3 right-3 h-1 ${getCursorStyle(
-                "top",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("top", e)}
-            />
-            <div
-              className={`absolute bottom-0 left-3 right-3 h-1 ${getCursorStyle(
-                "bottom",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("bottom", e)}
-            />
-            <div
-              className={`absolute left-0 top-3 bottom-3 w-1 ${getCursorStyle(
-                "left",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("left", e)}
-            />
-            <div
-              className={`absolute right-0 top-3 bottom-3 w-1 ${getCursorStyle(
-                "right",
-              )} z-10`}
-              onMouseDown={(e) => handleResizeStart("right", e)}
-            />
-          </>
-        )}
-
-        {/* Title Bar */}
-        <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-4 py-2 flex items-center justify-between border-b border-gray-700 cursor-move relative z-20">
-          <div className="flex items-center space-x-2">
-            {windowData.icon && (
-              <windowData.icon
-                className={`${isMobile ? "w-3 h-3" : "w-4 h-4"} text-cyan-400`}
+    <div ref={constraintsRef} className="absolute inset-0 pointer-events-none">
+      <motion.div
+        ref={windowRef}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        drag={!isMaximized && !isResizing}
+        dragMomentum={false}
+        dragConstraints={constraintsRef}
+        onDragStart={() => setIsDragging(true)}
+        onDragEnd={() => setIsDragging(false)}
+        className="absolute pointer-events-auto select-none"
+        style={{
+          left: isMaximized ? 0 : windowData.position.x,
+          top: isMaximized ? 0 : windowData.position.y,
+          width: isMaximized ? window.innerWidth : windowData.size.width,
+          height: isMaximized ? window.innerHeight : windowData.size.height,
+          zIndex: windowData.zIndex,
+          transition: isMaximized ? 'all 0.2s ease-in-out' : 'none',
+        }}
+      >
+        <div 
+          className={`bg-gray-900 border border-cyan-400/30 rounded-lg overflow-hidden h-full flex flex-col relative ${isMaximized ? 'rounded-none border-none' : ''}`}
+          style={{
+            transition: isMaximized ? 'all 0.2s ease-in-out' : 'none',
+            width: '100%',
+            height: '100%',
+          }}
+        >
+          {/* Resize Handles - Only show when not maximized and not mobile */}
+          {!isMaximized && !isMobile && (
+            <>
+              {/* Corner Handles */}
+              <div
+                className={`absolute top-0 left-0 w-3 h-3 ${getCursorStyle(
+                  "top-left",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("top-left", e)}
               />
-            )}
-            <span
-              className={`text-white ${
-                isMobile ? "text-xs" : "text-sm"
-              } font-medium`}
-            >
-              {windowData.title}
-            </span>
-          </div>
-          <div className="flex space-x-2">
-            <button
-              onClick={() => onClose(windowData.id)}
-              className={`${
-                isMobile ? "w-4 h-4" : "w-3 h-3"
-              } bg-red-500 rounded-full hover:bg-red-400 transition-colors`}
-            />
-            <button
-              onClick={() => onMinimize(windowData.id)}
-              className={`${
-                isMobile ? "w-4 h-4" : "w-3 h-3"
-              } bg-yellow-500 rounded-full hover:bg-yellow-400 transition-colors`}
-            />
-            <button
-              onClick={handleMaximize}
-              className={`${
-                isMobile ? "w-4 h-4" : "w-3 h-3"
-              } rounded-full transition-colors ${
-                isMaximized
-                  ? "bg-green-600 hover:bg-green-500"
-                  : "bg-green-500 hover:bg-green-400"
-              }`}
-            />
-          </div>
-        </div>
+              <div
+                className={`absolute top-0 right-0 w-3 h-3 ${getCursorStyle(
+                  "top-right",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("top-right", e)}
+              />
+              <div
+                className={`absolute bottom-0 left-0 w-3 h-3 ${getCursorStyle(
+                  "bottom-left",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("bottom-left", e)}
+              />
+              <div
+                className={`absolute bottom-0 right-0 w-3 h-3 ${getCursorStyle(
+                  "bottom-right",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("bottom-right", e)}
+              />
 
-        {/* Content */}
-        <div className="flex-1 overflow-auto relative z-10">
-          <WindowContent
-            type={windowData.content}
-            onOpenWindow={windowData.onOpenWindow}
-            trashedItems={windowData.trashedItems}
-            onRestoreItem={windowData.onRestoreItem}
-            onMoveToTrash={windowData.onMoveToTrash}
-            isMobile={isMobile}
-          />
+              {/* Edge Handles */}
+              <div
+                className={`absolute top-0 left-3 right-3 h-1 ${getCursorStyle(
+                  "top",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("top", e)}
+              />
+              <div
+                className={`absolute bottom-0 left-3 right-3 h-1 ${getCursorStyle(
+                  "bottom",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("bottom", e)}
+              />
+              <div
+                className={`absolute left-0 top-3 bottom-3 w-1 ${getCursorStyle(
+                  "left",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("left", e)}
+              />
+              <div
+                className={`absolute right-0 top-3 bottom-3 w-1 ${getCursorStyle(
+                  "right",
+                )} z-10`}
+                onMouseDown={(e) => handleResizeStart("right", e)}
+              />
+            </>
+          )}
+
+          {/* Title Bar */}
+          <div className="bg-gradient-to-r from-gray-800 to-gray-900 px-4 py-2 flex items-center justify-between border-b border-gray-700 cursor-move relative z-20">
+            <div className="flex items-center space-x-2">
+              {windowData.icon && (
+                <windowData.icon
+                  className={`${isMobile ? "w-3 h-3" : "w-4 h-4"} text-cyan-400`}
+                />
+              )}
+              <span
+                className={`text-white ${
+                  isMobile ? "text-xs" : "text-sm"
+                } font-medium`}
+              >
+                {windowData.title}
+              </span>
+            </div>
+            <div className="flex space-x-2">
+              <button
+                onClick={() => onClose(windowData.id)}
+                className={`${
+                  isMobile ? "w-4 h-4" : "w-3 h-3"
+                } bg-red-500 rounded-full hover:bg-red-400 transition-colors`}
+              />
+              <button
+                onClick={() => onMinimize(windowData.id)}
+                className={`${
+                  isMobile ? "w-4 h-4" : "w-3 h-3"
+                } bg-yellow-500 rounded-full hover:bg-yellow-400 transition-colors`}
+              />
+              <button
+                onClick={handleMaximize}
+                className={`${
+                  isMobile ? "w-4 h-4" : "w-3 h-3"
+                } rounded-full transition-colors ${
+                  isMaximized
+                    ? "bg-green-600 hover:bg-green-500"
+                    : "bg-green-500 hover:bg-green-400"
+                }`}
+              />
+            </div>
+          </div>
+
+          {/* Content */}
+          <div className={`flex-1 overflow-auto relative z-10 ${isMobile ? 'pb-16 safe-bottom' : ''}`}>
+            <WindowContent
+              type={windowData.content}
+              onOpenWindow={windowData.onOpenWindow}
+              trashedItems={windowData.trashedItems}
+              onRestoreItem={windowData.onRestoreItem}
+              onMoveToTrash={windowData.onMoveToTrash}
+              isMobile={isMobile}
+            />
+          </div>
         </div>
-      </div>
-    </motion.div>
+      </motion.div>
+    </div>
   );
 }

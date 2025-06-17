@@ -27,6 +27,8 @@ export default function Terminal() {
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const terminalRef = useRef<HTMLDivElement>(null);
 
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
   useEffect(() => {
     if (currentLineIndex < terminalContent.length) {
       const currentLine = terminalContent[currentLineIndex];
@@ -78,7 +80,7 @@ export default function Terminal() {
         <span className="text-gray-400 ml-4 text-xs">terminal</span>
       </div>
 
-      <div ref={terminalRef} className="text-green-400 space-y-1 overflow-y-auto max-h-64">
+      <div ref={terminalRef} className={`text-green-400 space-y-1 overflow-y-auto max-h-64${isMobile ? ' pb-16' : ''}`}>
         {displayLines.map((line, index) => (
           <div key={index} className="flex">
             <span>{line}</span>

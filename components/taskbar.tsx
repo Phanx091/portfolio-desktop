@@ -83,7 +83,7 @@ export default function Taskbar({
               } bg-gray-800 hover:bg-blue-600 border border-gray-600 hover:border-blue-400 rounded text-white ${
                 isMobile ? "text-xs" : "text-sm"
               } flex items-center space-x-2 transition-all duration-200 whitespace-nowrap cursor-pointer select-none`}
-              style={{ minHeight: "32px", minWidth: "80px" }}
+              style={{ minHeight: "32px", minWidth: isMobile ? 0 : "80px" }}
             >
               {window.icon && (
                 <window.icon
