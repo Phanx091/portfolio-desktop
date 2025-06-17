@@ -5,7 +5,6 @@
   right: 0;
   height: var(--taskbar-height);
   background: rgba(17, 24, 39, 0.95);
-  backdrop-filter: blur(var(--backdrop-blur-sm));
   border-top: 1px solid var(--color-text-disabled);
   display: flex;
   align-items: center;

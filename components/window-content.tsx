@@ -188,7 +188,7 @@ export default function WindowContent({
         "Redux",
         "SASS",
       ],
-      color: "text-purple-400",
+      color: "text-[--color-red-dark]",
       details:
         "Built interactive music platform for The Current, featuring live streaming, music discovery, artist interviews, and concert listings. Integrated with music APIs and real-time playlist updates.",
       features: [
@@ -209,6 +209,42 @@ export default function WindowContent({
         "/images/thecurrent/thecurrent-3.png",
         "/images/thecurrent/thecurrent-4.png",
         "/images/thecurrent/thecurrent-5.png",
+        "/images/thecurrent/thecurrent-6.png",
+        "/images/thecurrent/thecurrent-7.png",
+        "/images/thecurrent/thecurrent-8.png",
+      ],
+    },
+    {
+      title: "Marketplace",
+      description:
+        "Auto-generates new podcast websites from configuration files",
+      tech: [
+        "Next.js",
+        "TypeScript",
+        "Node.js",
+        "CMS Integration",
+        "AWS",
+        "CI/CD",
+      ],
+      color: "text-red-400",
+      details:
+        "Streamlined podcast site creation by implementing a custom template app that auto-generates new websites from config files—now powering 6+ APMG podcast sites.",
+      features: [
+        "Automated Site Generation",
+        "Customizable Templates",
+        "Content Management Integration",
+        "Analytics Integration",
+        "Responsive Design",
+      ],
+      company: "American Public Media Group",
+      duration: "2024 - 2025",
+      team: "Frontend development team",
+      url: "https://www.marketplace.org/",
+      screenshots: [
+        "/images/marketplace/marketplace-1.png",
+        "/images/marketplace/marketplace-2.png",
+        "/images/marketplace/marketplace-3.png",
+        "/images/marketplace/marketplace-4.png",
       ],
     },
     {
@@ -237,7 +273,12 @@ export default function WindowContent({
       duration: "2018 - Present",
       team: "Classical music team",
       url: "https://www.yourclassical.org/",
-      screenshots: ["/placeholder.svg?height=400&width=600"],
+      screenshots: [
+        "/images/yourclassical/yourclassical-1.png",
+        "/images/yourclassical/yourclassical-2.png",
+        "/images/yourclassical/yourclassical-3.png",
+        "/images/yourclassical/yourclassical-4.png",
+      ],
     },
     {
       title: "Internal React Component Library",
@@ -667,7 +708,7 @@ export default function WindowContent({
                 ].map((item) => (
                   <div
                     key={item.title}
-                    className="bg-white/10 backdrop-blur-sm p-6 rounded-lg"
+                    className="bg-white/10 p-6 rounded-lg"
                   >
                     <div className="text-3xl mb-3">{item.icon}</div>
                     <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
@@ -954,7 +995,7 @@ export default function WindowContent({
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center p-2 rounded hover:bg-blue-100 cursor-pointer group"
                   draggable
-                  onDragStart={(e) => handleDragStart(e, item)}
+                  onDragStart={(e) => handleDragStart(e as unknown as React.DragEvent<HTMLDivElement>, item)}
                   onDoubleClick={() => onRestoreItem && onRestoreItem(item.id)}
                 >
                   <div
@@ -984,7 +1025,7 @@ export default function WindowContent({
                   <div className="absolute hidden group-hover:block">
                     <div className="relative">
                       <button
-                        onClick={(e) => {
+                        onClick={(e: React.MouseEvent) => {
                           e.stopPropagation();
                           onRestoreItem && onRestoreItem(item.id);
                         }}
@@ -1936,9 +1977,9 @@ export default function WindowContent({
             selectedWorkProject.screenshots.length > 0 && (
               <motion.div variants={itemVariants} className="mb-6">
                 <h3
-                  className={`${
+                  className={`$${
                     isMobile ? "text-lg" : "text-xl"
-                  } font-semibold mb-4 text-[#327e98]`}
+                  } font-semibold mb-4 ${selectedWorkProject.color}`}
                 >
                   Screenshots
                 </h3>
@@ -1980,14 +2021,14 @@ export default function WindowContent({
                         onClick={() =>
                           setCurrentImageIndex(
                             Math.min(
-                              selectedWorkProject.screenshots.length - 3,
-                              currentImageIndex + 1
+                              selectedWorkProject.screenshots.length - (isMobile ? 1 : 3),
+                              currentImageIndex + (isMobile ? 1 : 1)
                             )
                           )
                         }
                         disabled={
                           currentImageIndex >=
-                          selectedWorkProject.screenshots.length - 3
+                          selectedWorkProject.screenshots.length - (isMobile ? 1 : 3)
                         }
                         className="bg-black/50 text-white p-2 rounded-full disabled:opacity-50"
                       >
@@ -2027,17 +2068,21 @@ export default function WindowContent({
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center p-4"
+                      className={
+                        isMobile
+                          ? 'fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4'
+                          : 'absolute inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-hidden'
+                      }
                       onClick={() => setFullscreenImage(null)}
                     >
-                      <div className="relative max-w-full max-h-full">
+                      <div className="relative w-full h-full flex items-center justify-center">
                         <img
                           src={fullscreenImage}
                           alt="Fullscreen view"
-                          className="max-w-full max-h-[90vh] object-contain rounded-lg"
+                          className="w-full h-full object-contain rounded-lg"
                         />
                         <button
-                          onClick={(e) => {
+                          onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
                             setFullscreenImage(null);
                           }}
@@ -2055,9 +2100,9 @@ export default function WindowContent({
           {/* Features */}
           <motion.div variants={itemVariants} className="mb-6">
             <h3
-              className={`${
-                isMobile ? "text-lg" : "text-xl"
-              } font-semibold mb-4 text-[#327e98]`}
+              className={`$${
+                isMobile ? "text-base" : "text-lg"
+              } font-semibold mb-2 ${selectedWorkProject.color}`}
             >
               Key Features
             </h3>
@@ -2083,9 +2128,9 @@ export default function WindowContent({
           {/* Technologies */}
           <motion.div variants={itemVariants} className="mb-6">
             <h3
-              className={`${
-                isMobile ? "text-lg" : "text-xl"
-              } font-semibold mb-4 text-[#327e98]`}
+              className={`$${
+                isMobile ? "text-base" : "text-lg"
+              } font-semibold mb-2 ${selectedWorkProject.color}`}
             >
               Technologies Used
             </h3>
@@ -2210,7 +2255,7 @@ export default function WindowContent({
                 }`}
               >
                 <span className="flex items-center">
-                  <div className="w-3 h-3 text-[#8E6] rounded-full mr-2"></div>
+                  <div className="w-3 h-3 bg-[#ea580c] rounded-full mr-2"></div>
                   {project.company}
                 </span>
                 {/* <span>{project.duration}</span> */}

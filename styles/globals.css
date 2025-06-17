@@ -29,6 +29,7 @@
   --color-pink: #ec4899;
   --color-blue: #3b82f6;
   --color-red: #ef4444;
+  --color-red-dark: #da291c;
   --color-yellow: #eab308;
   --color-gray: #6b7280;
 
@@ -136,11 +137,6 @@
   --duration-normal: 300ms;
   --duration-slow: 500ms;
   --duration-slower: 1000ms;
-
-  /* Backdrop Blur */
-  --backdrop-blur-sm: 4px;
-  --backdrop-blur-md: 12px;
-  --backdrop-blur-lg: 16px;
 
   /* Icon Sizes */
   --icon-xs: 1rem;

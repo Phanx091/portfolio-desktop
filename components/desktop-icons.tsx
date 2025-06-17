@@ -209,7 +209,7 @@ export default function DesktopIcons({
               whileTap={{ scale: 0.95 }}
               className="flex flex-col items-center cursor-pointer group"
               draggable={icon.id !== "trash"}
-              onDragStart={(e) => handleDragStart(e, icon)}
+              onDragStart={(e) => handleDragStart(e as unknown as React.DragEvent<HTMLDivElement>, icon)}
               onDragOver={handleDragOver}
               onDragEnter={(e) => handleDragEnter(e, icon.id)}
               onDragLeave={(e) => handleDragLeave(e, icon.id)}
@@ -314,7 +314,7 @@ export default function DesktopIcons({
                           : icon.id === "work-projects"
                           ? "bg-gradient-to-r from-orange-400 to-orange-600"
                           : "bg-gradient-to-r from-cyan-400 to-purple-400"
-                      } rounded-lg opacity-0 group-hover:opacity-30 blur-sm`}
+                      } rounded-lg opacity-0 group-hover:opacity-30`}
                       transition={{ duration: 0.3 }}
                     />
                   </motion.div>

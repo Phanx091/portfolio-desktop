@@ -25,7 +25,7 @@ export default function WindowManager({
           onClose={onClose}
           onMinimize={onMinimize}
           onUpdate={(updatedWindow) => {
-            setWindows((prev) => prev.map((w) => (w.id === updatedWindow.id ? updatedWindow : w)))
+            setWindows((prev: Window[]) => prev.map((w: Window) => w.id === updatedWindow.id ? updatedWindow : w))
           }}
           isMobile={isMobile}
         />

@@ -168,9 +168,9 @@ export default function Window({
   return (
     <motion.div
       ref={windowRef}
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       drag={!isMaximized && !isResizing}
       dragMomentum={false}
       onDragStart={() => setIsDragging(true)}
@@ -184,7 +184,7 @@ export default function Window({
         zIndex: windowData.zIndex,
       }}
     >
-      <div className="bg-gray-900/95 backdrop-blur-sm border border-cyan-400/30 rounded-lg overflow-hidden h-full flex flex-col relative">
+      <div className="bg-gray-900 border border-cyan-400/30 rounded-lg overflow-hidden h-full flex flex-col relative overflow-hidden">
         {/* Resize Handles - Only show when not maximized and not mobile */}
         {!isMaximized && !isMobile && (
           <>

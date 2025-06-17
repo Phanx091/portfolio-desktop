@@ -65,7 +65,7 @@ export default function Desktop() {
     const availableHeight = viewportHeight - edgePadding * 2 - 60; // Account for taskbar
 
     const windowWidth = Math.min(availableWidth * 0.85, isTrash ? 900 : 1000);
-    const windowHeight = Math.min(availableHeight * 0.85, isTrash ? 650 : 700);
+    const windowHeight = Math.min(availableHeight * 0.95, isTrash ? 800 : 900);
 
     const startX = Math.min(iconAreaWidth + 50, viewportWidth * 0.2);
     const startY = edgePadding + 20;

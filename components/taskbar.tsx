@@ -33,7 +33,7 @@ export default function Taskbar({
       animate={{ y: 0 }}
       className={`absolute bottom-0 left-0 right-0 ${
         isMobile ? "h-14" : "h-12"
-      } bg-gray-900/95 backdrop-blur-sm border-t border-gray-700 flex items-center justify-between px-4`}
+      } bg-gray-900/95 border-t border-gray-700 flex items-center justify-between px-4`}
       style={{ zIndex: 9999, pointerEvents: "auto" }}
     >
       {/* Start Menu */}

@@ -30,6 +30,10 @@
   color: var(--color-green);
 }
 
+.titleRedDark {
+  color: var(--color-red-dark);
+}
+
 .subtitle {
   color: var(--color-text-secondary);
   margin-bottom: var(--spacing-lg);
