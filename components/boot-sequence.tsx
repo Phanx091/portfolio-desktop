@@ -42,7 +42,7 @@ export default function BootSequence() {
     <div className="h-full w-full bg-black flex items-center justify-center">
       <div className="font-mono text-green-400 text-lg">
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mb-4 text-center">
-          <div className="text-2xl mb-2 text-cyan-400">NEXUS OS v2.1</div>
+          <div className="text-2xl mb-2 text-cyan-400">NexusOS v2.1</div>
           <div className="text-sm text-gray-500">Frontend Engineer Portfolio System</div>
         </motion.div>
 

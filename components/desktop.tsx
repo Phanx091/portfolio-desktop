@@ -7,6 +7,8 @@ import Terminal from "@/components/terminal";
 import WindowManager from "@/components/window-manager";
 import Taskbar from "@/components/taskbar";
 import BackgroundAnimation from "@/components/background-animation";
+import UpdateNotification from "@/components/update-notification";
+import TerminalCommandsNote from "@/components/terminal-commands-note";
 import styles from "@/styles/components/Desktop.module.css";
 
 export default function Desktop() {
@@ -243,13 +245,16 @@ export default function Desktop() {
       <div
         className={
           isMobile
-            ? "absolute bottom-20 left-4 right-4 h-64"
-            : "absolute top-8 right-8 w-96 h-80"
+            ? "absolute bottom-20 left-4 right-4 h-80"
+            : "absolute top-8 right-8 w-96 h-96"
         }
         style={{ zIndex: 10 }} // Terminal above icons but below windows
       >
         <Terminal />
       </div>
+
+      {/* Terminal Commands Note - positioned relative to terminal */}
+      <TerminalCommandsNote isMobile={isMobile} />
 
       {/* Windows - Highest z-index */}
       <WindowManager
@@ -268,6 +273,9 @@ export default function Desktop() {
           isMobile={isMobile}
         />
       </div>
+
+      {/* Update Notification - High z-index but below taskbar */}
+      <UpdateNotification isMobile={isMobile} />
     </div>
   );
 }

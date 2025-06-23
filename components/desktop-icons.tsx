@@ -13,6 +13,7 @@ import {
   Chrome,
   Briefcase,
 } from "lucide-react";
+import { useTheme } from "@/components/theme-provider";
 
 const originalIcons = [
   {
@@ -86,6 +87,7 @@ export default function DesktopIcons({
   const [isOverTrash, setIsOverTrash] = useState(false);
   const [isOverDesktop, setIsOverDesktop] = useState(false);
   const desktopRef = useRef<HTMLDivElement>(null);
+  const { theme, isUpdating } = useTheme();
 
   // Filter out trashed items from visible icons
   const visibleIcons = originalIcons.filter(
@@ -93,6 +95,54 @@ export default function DesktopIcons({
   );
 
   const allIcons = [...visibleIcons, trashIcon];
+
+  // Get theme-based colors
+  const getThemeColors = () => {
+    switch (theme) {
+      case "update":
+        return {
+          primary: "from-orange-500 to-orange-600",
+          border: "border-orange-400",
+          hover: "from-orange-400/20 to-orange-600/20",
+          glow: "from-orange-400 to-orange-600",
+          text: "text-orange-400",
+        };
+      case "cyberpunk":
+        return {
+          primary: "from-green-500 to-cyan-500",
+          border: "border-green-400",
+          hover: "from-green-400/20 to-cyan-400/20",
+          glow: "from-green-400 to-cyan-400",
+          text: "text-green-400",
+        };
+      case "sunset":
+        return {
+          primary: "from-orange-500 to-red-500",
+          border: "border-orange-400",
+          hover: "from-orange-400/20 to-red-400/20",
+          glow: "from-orange-400 to-red-400",
+          text: "text-orange-400",
+        };
+      case "ocean":
+        return {
+          primary: "from-cyan-500 to-blue-600",
+          border: "border-cyan-400",
+          hover: "from-cyan-400/20 to-blue-400/20",
+          glow: "from-cyan-400 to-blue-400",
+          text: "text-cyan-400",
+        };
+      default:
+        return {
+          primary: "from-gray-800 to-gray-900",
+          border: "border-gray-700",
+          hover: "from-blue-500/20 to-purple-500/20",
+          glow: "from-cyan-400 to-purple-400",
+          text: "text-cyan-400",
+        };
+    }
+  };
+
+  const themeColors = getThemeColors();
 
   const handleDragStart = (e: React.DragEvent, icon: any) => {
     if (icon.id === "trash") return; // Can't drag trash can
@@ -204,7 +254,7 @@ export default function DesktopIcons({
                 filter:
                   icon.id === "trash"
                     ? "none"
-                    : "drop-shadow(0 0 20px rgba(59, 130, 246, 0.5))",
+                    : `drop-shadow(0 0 20px ${themeColors.text.replace('text-', 'rgba(').replace('-400', '-400, 0.5)')})`,
               }}
               whileTap={{ scale: 0.95 }}
               className="flex flex-col items-center cursor-pointer group"
@@ -225,100 +275,74 @@ export default function DesktopIcons({
             >
               <motion.div
                 className="relative"
-                whileHover={{ y: icon.id === "trash" ? 0 : isMobile ? -2 : -5 }}
+                whileHover={{ y: isMobile ? -2 : -5 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
                 {icon.id === "trash" ? (
-                  // Trash icon without background - just the icon
+                  // Trash icon with special styling
                   <motion.div
-                    className="relative"
-                    whileHover={{ y: 0 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    className={`${
+                      isMobile ? "w-12 h-12" : "w-16 h-16"
+                    } bg-gradient-to-br ${themeColors.primary} rounded-lg border ${themeColors.border} flex items-center justify-center relative`}
+                    animate={{
+                      scale: isOverTrash ? 1.1 : 1,
+                      rotate: isOverTrash ? 5 : 0,
+                    }}
+                    transition={{ type: "spring", stiffness: 300, damping: 10 }}
                   >
-                    <icon.icon
-                      className={`${isMobile ? "w-12 h-12" : "w-16 h-16"} ${
-                        getTrashIconVariant() === "full"
-                          ? "text-red-400"
-                          : isOverTrash
-                          ? "text-red-300"
-                          : "text-gray-400"
-                      }`}
+                    <motion.div
+                      className={`absolute inset-0 opacity-0 group-hover:opacity-100 ${themeColors.hover}`}
+                      transition={{ duration: 0.3 }}
                     />
-
-                    {/* Trash full indicator */}
+                    <icon.icon
+                      className={`${
+                        isMobile ? "w-6 h-6" : "w-8 h-8"
+                      } relative z-10 text-white`}
+                    />
                     {trashedItems.length > 0 && (
                       <motion.div
+                        className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-lg"
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
-                        className={`absolute -top-1 -right-1 ${
-                          isMobile ? "w-3 h-3" : "w-4 h-4"
-                        } bg-red-500 rounded-full flex items-center justify-center`}
+                        transition={{ type: "spring", stiffness: 300, damping: 10 }}
                       >
-                        <span
-                          className={`text-white ${
-                            isMobile ? "text-xs" : "text-xs"
-                          } font-bold`}
-                        >
-                          {trashedItems.length}
-                        </span>
+                        {trashedItems.length > 99 ? "99+" : trashedItems.length}
                       </motion.div>
                     )}
                   </motion.div>
                 ) : (
-                  // Regular icons with background
+                  // Regular icons with theme-based styling
                   <motion.div
-                    className="relative"
-                    whileHover={{ y: isMobile ? -2 : -5 }}
-                    transition={{ type: "spring", stiffness: 400, damping: 10 }}
+                    className={`${
+                      isMobile ? "w-12 h-12" : "w-16 h-16"
+                    } bg-gradient-to-br ${themeColors.primary} rounded-lg border ${themeColors.border} flex items-center justify-center relative overflow-hidden`}
+                    animate={{
+                      scale: isUpdating ? [1, 1.05, 1] : 1,
+                    }}
+                    transition={{
+                      scale: {
+                        duration: 2,
+                        repeat: isUpdating ? Infinity : 0,
+                        ease: "easeInOut",
+                      },
+                    }}
                   >
-                    <div
-                      className={`${isMobile ? "w-12 h-12" : "w-16 h-16"} ${
-                        icon.id === "browser"
-                          ? "bg-gradient-to-br from-blue-500 to-blue-600"
-                          : icon.id === "work-projects"
-                          ? "bg-gradient-to-br from-orange-500 to-orange-600"
-                          : "bg-gradient-to-br from-gray-800 to-gray-900"
-                      } rounded-lg border ${
-                        icon.id === "browser"
-                          ? "border-blue-400"
-                          : icon.id === "work-projects"
-                          ? "border-orange-400"
-                          : "border-gray-700"
-                      } flex items-center justify-center relative overflow-hidden`}
-                    >
-                      <motion.div
-                        className={`absolute inset-0 opacity-0 group-hover:opacity-100 ${
-                          icon.id === "browser"
-                            ? "bg-gradient-to-br from-blue-400/20 to-blue-600/20"
-                            : icon.id === "work-projects"
-                            ? "bg-gradient-to-br from-orange-400/20 to-orange-600/20"
-                            : "bg-gradient-to-br from-blue-500/20 to-purple-500/20"
-                        }`}
-                        transition={{ duration: 0.3 }}
-                      />
-                      <icon.icon
-                        className={`${
-                          isMobile ? "w-6 h-6" : "w-8 h-8"
-                        } relative z-10 ${
-                          icon.id === "browser" || icon.id === "work-projects"
-                            ? "text-white"
-                            : icon.color
-                        }`}
-                      />
-                    </div>
-
                     <motion.div
-                      className={`absolute -inset-1 ${
-                        icon.id === "browser"
-                          ? "bg-gradient-to-r from-blue-400 to-blue-600"
-                          : icon.id === "work-projects"
-                          ? "bg-gradient-to-r from-orange-400 to-orange-600"
-                          : "bg-gradient-to-r from-cyan-400 to-purple-400"
-                      } rounded-lg opacity-0 group-hover:opacity-30`}
+                      className={`absolute inset-0 opacity-0 group-hover:opacity-100 ${themeColors.hover}`}
                       transition={{ duration: 0.3 }}
+                    />
+                    <icon.icon
+                      className={`${
+                        isMobile ? "w-6 h-6" : "w-8 h-8"
+                      } relative z-10 text-white`}
                     />
                   </motion.div>
                 )}
+
+                <motion.div
+                  className={`absolute -inset-1 bg-gradient-to-r ${themeColors.glow} rounded-lg opacity-0 group-hover:opacity-30`}
+                  transition={{ duration: 0.3 }}
+                />
               </motion.div>
               <span
                 className={`text-white ${
@@ -326,7 +350,7 @@ export default function DesktopIcons({
                 } mt-2 text-center transition-colors ${
                   icon.id === "trash"
                     ? "group-hover:text-gray-300"
-                    : "group-hover:text-cyan-400"
+                    : `group-hover:${themeColors.text}`
                 }`}
               >
                 {icon.name}

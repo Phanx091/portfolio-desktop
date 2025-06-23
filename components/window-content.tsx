@@ -138,19 +138,21 @@ export default function WindowContent({
   // Work projects data
   const workProjects = [
     {
-      title: "MPR News Website",
+      title: "MPR News",
       description:
-        "Minnesota's premier news source with real-time updates and multimedia content",
+        "Minnesota's premier news source with over 1.5 million vistors monthly",
       tech: [
         "React",
         "Next.js",
         "TypeScript",
         "CMS Integration",
-        "Webpack",
-        "SCSS",
-        "Node.js",
-        "Express",
-        "PostgreSQL",
+        "CSS Modules",
+        "GraphQL",
+        "AWS",
+        "Cognito",
+        "DynamoDB",
+        "WeatherKit API",
+        "Market Cloud Salesforce",
       ],
       color: "text-[#327e98]",
       details:
@@ -158,7 +160,9 @@ export default function WindowContent({
       features: [
         "Real-time News Updates",
         "Multimedia Content Integration",
+        "Live Audio Stream Integration",
         "Weather Widget Integration",
+        "Live Weather Widget",
         "Newsletter Subscription System",
         "Mobile-First Responsive Design",
         "Accessibility Compliance (WCAG 2.1)",
@@ -348,6 +352,7 @@ export default function WindowContent({
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedWorkProject, setSelectedWorkProject] = useState<any>(null);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
+  const [trashPrompt, setTrashPrompt] = useState<string | null>(null);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -429,6 +434,17 @@ export default function WindowContent({
         console.error("Fallback parsing also failed:", fallbackError);
       }
     }
+  };
+
+  // Trash window button handlers
+  const handleTrashViewClick = () => {
+    setTrashPrompt("View button clicked - this action does nothing in this demo.");
+    setTimeout(() => setTrashPrompt(null), 3000);
+  };
+
+  const handleTrashSortClick = () => {
+    setTrashPrompt("Sort by button clicked - this action does nothing in this demo.");
+    setTimeout(() => setTrashPrompt(null), 3000);
   };
 
   // Browser functionality
@@ -964,10 +980,10 @@ export default function WindowContent({
           </div>
           {!isMobile && (
             <div className="flex items-center space-x-2">
-              <button className="px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 rounded border">
+              <button className="px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 rounded border" onClick={handleTrashViewClick}>
                 View
               </button>
-              <button className="px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 rounded border">
+              <button className="px-3 py-1 text-xs bg-gray-200 hover:bg-gray-300 rounded border" onClick={handleTrashSortClick}>
                 Sort by
               </button>
             </div>
@@ -976,7 +992,7 @@ export default function WindowContent({
 
         {/* Content area */}
         <div
-          className={`p-4 flex-1 overflow-auto transition-all duration-200 ${
+          className={`p-4 flex-1 overflow-auto transition-all duration-200 relative ${
             isDragOver
               ? "bg-blue-50 border-2 border-dashed border-blue-400 shadow-inner"
               : ""
@@ -1075,6 +1091,18 @@ export default function WindowContent({
                 )}
               </p>
             </div>
+          )}
+
+          {/* Prompt display */}
+          {trashPrompt && (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 20 }}
+              className="absolute bottom-4 right-4 bg-gray-800 text-white px-4 py-2 rounded-lg shadow-lg max-w-xs text-sm"
+            >
+              {trashPrompt}
+            </motion.div>
           )}
         </div>
       </div>
