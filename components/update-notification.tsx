@@ -201,7 +201,7 @@ export default function UpdateNotification({ isMobile = false }: UpdateNotificat
                 </div>
               </>
             ) : isUpdating ? (
-              // Update progress
+              // Update progress`
               <div className="space-y-3">
                 <div className="flex items-center space-x-2">
                   <Download className="w-5 h-5 text-blue-400 animate-pulse" />
