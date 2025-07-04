@@ -123,9 +123,9 @@ export default function WindowContent({
       ],
       github: "https://github.com/Phanx091/hacker-feeds-solo?tab=readme-ov-file",
       screenshots: [
-        "/images/hackfeeds/hack-feeds-1.png",
-        "/images/hackfeeds/hack-feeds-2.png",
-        "/images/hackfeeds/hack-feeds-3.png",
+        "/images/hackerfeeds/hacker-feeds-1.png",
+        "/images/hackerfeeds/hacker-feeds-2.png",
+        "/images/hackerfeeds/hacker-feeds-3.png",
       ],
     },
     {
@@ -351,49 +351,6 @@ export default function WindowContent({
       ],
     },
     {
-      title: "The Current Music Platform",
-      description: "Minnesota's premier music discovery and streaming platform",
-      tech: [
-        "React",
-        "Next.js",
-        "TypeScript",
-        "CMS Integration",
-        "CSS Modules",
-        "GraphQL",
-        "AWS",
-        "Cognito",
-        "DynamoDB",
-        "Market Cloud Salesforce",
-        "Audio APIs",
-        "Spotify API",
-      ],
-      color: "text-indigo-600",
-      details:
-        "Built interactive music platform for The Current, featuring live streaming, music discovery, artist interviews, and concert listings. Integrated with music APIs and real-time playlist updates.",
-      features: [
-        "Live Music Streaming",
-        "Artist Discovery Engine",
-        "Concert Event Listings",
-        "Music Playlist Management",
-        "Artist Interview Archive",
-        "Social Music Sharing",
-      ],
-      company: "Minnesota Public Radio",
-      duration: "2024 - 2024",
-      team: "Frontend Development Team",
-      url: "https://www.thecurrent.org/",
-      screenshots: [
-        "/images/thecurrent/thecurrent-1.png",
-        "/images/thecurrent/thecurrent-2.png",
-        "/images/thecurrent/thecurrent-3.png",
-        "/images/thecurrent/thecurrent-4.png",
-        "/images/thecurrent/thecurrent-5.png",
-        "/images/thecurrent/thecurrent-6.png",
-        "/images/thecurrent/thecurrent-7.png",
-        "/images/thecurrent/thecurrent-8.png",
-      ],
-    },
-    {
       title: "Caring_Bridge",
       description:
         "CB-Filter, a tool to filter out sensitive content from CaringBridge websites",
@@ -431,34 +388,34 @@ export default function WindowContent({
         "/images/caringbridge/caringbridge-6.png",
       ],
     },
-    {
-      title: "Podcast Template System",
-      description:
-        "Auto-generates new podcast websites from configuration files",
-      tech: [
-        "Next.js",
-        "TypeScript",
-        "Node.js",
-        "CMS Integration",
-        "AWS",
-        "CI/CD",
-      ],
-      color: "text-red-400",
-      details:
-        "Streamlined podcast site creation by implementing a custom template app that auto-generates new websites from config files—now powering 6+ APMG podcast sites.",
-      features: [
-        "Automated Site Generation",
-        "Customizable Templates",
-        "Content Management Integration",
-        "Analytics Integration",
-        "Responsive Design",
-      ],
-      company: "American Public Media Group",
-      duration: "2019 - 2021",
-      team: "Podcast platform team",
-      url: "https://www.apmg.org/podcasts",
-      screenshots: ["/placeholder.svg?height=400&width=600"],
-    },
+    // {
+    //   title: "Podcast Template System",
+    //   description:
+    //     "Auto-generates new podcast websites from configuration files",
+    //   tech: [
+    //     "Next.js",
+    //     "TypeScript",
+    //     "Node.js",
+    //     "CMS Integration",
+    //     "AWS",
+    //     "CI/CD",
+    //   ],
+    //   color: "text-red-400",
+    //   details:
+    //     "Streamlined podcast site creation by implementing a custom template app that auto-generates new websites from config files—now powering 6+ APMG podcast sites.",
+    //   features: [
+    //     "Automated Site Generation",
+    //     "Customizable Templates",
+    //     "Content Management Integration",
+    //     "Analytics Integration",
+    //     "Responsive Design",
+    //   ],
+    //   company: "American Public Media Group",
+    //   duration: "2019 - 2021",
+    //   team: "Podcast platform team",
+    //   url: "https://www.apmg.org/podcasts",
+    //   screenshots: ["/placeholder.svg?height=400&width=600"],
+    // },
   ], []);
 
   // All state and handler functions go here
