@@ -20,6 +20,9 @@ export default function Desktop() {
   const [viewportWidth, setViewportWidth] = useState(1920); // Default fallback
   const [viewportHeight, setViewportHeight] = useState(1080); // Default fallback
 
+  // Check if any windows are open (not minimized)
+  const hasOpenWindows = windows.length > 0;
+
   useEffect(() => {
     const checkViewport = () => {
       setIsMobile(window.innerWidth < 768);
@@ -36,11 +39,19 @@ export default function Desktop() {
   }, []);
 
   useEffect(() => {
+    let ticking = false;
+    
     const handleMouseMove = (e: MouseEvent) => {
-      setMousePosition({ x: e.clientX, y: e.clientY });
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          setMousePosition({ x: e.clientX, y: e.clientY });
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
@@ -218,17 +229,11 @@ export default function Desktop() {
 
   return (
     <div className={styles.desktop}>
-      <BackgroundAnimation mousePosition={mousePosition} />
+      <BackgroundAnimation mousePosition={mousePosition} disableMouseEffect={hasOpenWindows} />
 
       {/* Desktop Icons - Lower z-index to stay behind windows */}
-      <motion.div
-        className={styles.parallaxContainer}
+      <div
         style={{
-          transform: isMobile
-            ? "none"
-            : `translate(${mousePosition.x * 0.01}px, ${
-                mousePosition.y * 0.01
-              }px)`,
           zIndex: 1, // Lower z-index for icons
         }}
       >
@@ -239,7 +244,7 @@ export default function Desktop() {
           onRestoreFromTrash={restoreFromTrash}
           isMobile={isMobile}
         />
-      </motion.div>
+      </div>
 
       {/* Terminal - repositioned for mobile to bottom */}
       <div

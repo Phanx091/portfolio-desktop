@@ -1,8 +1,6 @@
 "use client";
 
-import type React from "react";
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {
   Github,
@@ -58,8 +56,8 @@ export default function WindowContent({
     contact: Mail,
     browser: Chrome,
   };
-  // Move all the data arrays here at the top
-  const projects = [
+  // Move all the data arrays here at the top - memoized to prevent recreation
+  const projects = React.useMemo(() => [
     {
       title: "Studio Monitors App",
       description:
@@ -67,28 +65,38 @@ export default function WindowContent({
       tech: [
         "JavaScript",
         "React",
-        "TypeScript",
         "Next.js",
         "GraphQL",
         "Moment",
         "Jest",
         "REST API",
+        "AWS Deployment",
+        "Docker",
+        "ESLint",
       ],
       color: "text-blue-400",
       details:
-        "Independently designed, built, and deployed an always-on internal dashboard displayed across all company facility televisions. The app features real-time data on what's currently playing across the company's radio stations (The Current, YourClassical), daily weather updates, featured top stories from MPR News, and internal company announcements.",
+        "Independently designed, built, and deployed an always-on internal dashboard displayed across all company facility televisions. The app features real-time data on what's currently playing across the company's radio stations (MPR NewsThe Current, YourClassical), daily weather updates, featured top stories from MPR News, and internal company announcements.",
       features: [
-        "Real-time audio playback tracking",
+        "Real-time Company Announcements",
         "Weather updates",
-        "Featured news stories",
-        "Company announcements",
+        "Radio Station Playlists",
+        "Headlines from MPR News",
+        "Date and time",
         "Responsive Design",
       ],
-      github: "https://github.com/username/studio-monitors",
-      demo: "https://studio-monitors-demo.vercel.app",
+      github: "https://github.com/Phanx091/studio-monitors-app",
+      // demo: "https://studio-monitors-demo.vercel.app",
+      screenshots: [
+        "/images/studiomonitor/studio-monitor-1.png",
+        "/images/studiomonitor/studio-monitor-2.png",
+        "/images/studiomonitor/studio-monitor-3.png",
+        "/images/studiomonitor/studio-monitor-4.png",
+        "/images/studiomonitor/studio-monitor-5.png",
+      ],
     },
     {
-      title: "Hack_feeds App",
+      title: "Hacker Feeds App",
       description: "RSS feed aggregator similar to Feedly",
       tech: [
         "JavaScript",
@@ -97,6 +105,7 @@ export default function WindowContent({
         "Saga",
         "Axios",
         "Node",
+        "Nodemon",
         "Express",
         "Passport.js",
         "PostgreSQL",
@@ -112,31 +121,45 @@ export default function WindowContent({
         "Mobile Responsive",
         "Multiple Source Viewing",
       ],
-      github: "https://github.com/username/hack_feeds",
-      demo: "https://hack-feeds-demo.vercel.app",
+      github: "https://github.com/Phanx091/hacker-feeds-solo?tab=readme-ov-file",
+      screenshots: [
+        "/images/hackfeeds/hack-feeds-1.png",
+        "/images/hackfeeds/hack-feeds-2.png",
+        "/images/hackfeeds/hack-feeds-3.png",
+      ],
     },
     {
       title: "React Audio Player",
       description:
         "Standardized audio playback component published as NPM package",
-      tech: ["React", "TypeScript", "HTML5 Audio API", "CSS3", "Jest", "NPM"],
+      tech: ["React", "TypeScript", "CSS3", "Jest", "NPM"],
       color: "text-green-400",
       details:
         "Standardized audio playback across all MPR applications by developing a customizable React audio player and publishing it as an internal NPM package.",
       features: [
         "Customizable UI",
+        "Customizable Controls",
+        "HTML5 React Wrapper",
         "Streaming Support",
         "Playlist Management",
         "Accessibility Features",
         "Cross-browser Compatibility",
+        "NPM Package",
       ],
-      github: "https://github.com/username/react-audio-player",
-      demo: "https://react-audio-player-demo.vercel.app",
+      github: "https://github.com/APMG/apm-react-audio-player",
+      npm: "https://www.npmjs.com/package/apm-react-audio-player",
+      screenshots: [
+        "/images/reactaudioplayer/react-audio-player-1.png",
+        "/images/reactaudioplayer/react-audio-player-2.png",
+        "/images/reactaudioplayer/react-audio-player-3.png",
+        "/images/reactaudioplayer/react-audio-player-4.png",
+        "/images/reactaudioplayer/react-audio-player-5.png",
+      ],
     },
-  ];
+  ], []);
 
-  // Work projects data
-  const workProjects = [
+    // Work projects data - memoized to prevent recreation
+  const workProjects = React.useMemo(() => [
     {
       title: "MPR News",
       description:
@@ -154,7 +177,7 @@ export default function WindowContent({
         "WeatherKit API",
         "Market Cloud Salesforce",
       ],
-      color: "text-[#327e98]",
+      color: "text-blue-400",
       details:
         "Led frontend development for MPR News, Minnesota's most trusted news source serving over 900,000 monthly users. Built responsive, accessible news platform with real-time content updates, multimedia integration, and optimized performance for breaking news coverage.",
       features: [
@@ -168,7 +191,7 @@ export default function WindowContent({
         "Accessibility Compliance (WCAG 2.1)",
       ],
       company: "Minnesota Public Radio",
-      duration: "2021 - Present",
+      duration: "2024 - 2024",
       team: "Frontend development team",
       url: "https://www.mprnews.org/",
       screenshots: [
@@ -186,13 +209,19 @@ export default function WindowContent({
       description: "Minnesota's premier music discovery and streaming platform",
       tech: [
         "React",
+        "Next.js",
+        "TypeScript",
+        "CMS Integration",
+        "CSS Modules",
+        "GraphQL",
+        "AWS",
+        "Cognito",
+        "DynamoDB",
+        "Market Cloud Salesforce",
         "Audio APIs",
-        "Music Metadata APIs",
-        "Real-time WebSockets",
-        "Redux",
-        "SASS",
+        "Spotify API",
       ],
-      color: "text-[--color-red-dark]",
+      color: "text-current-red",
       details:
         "Built interactive music platform for The Current, featuring live streaming, music discovery, artist interviews, and concert listings. Integrated with music APIs and real-time playlist updates.",
       features: [
@@ -204,8 +233,8 @@ export default function WindowContent({
         "Social Music Sharing",
       ],
       company: "Minnesota Public Radio",
-      duration: "2018 - Present",
-      team: "Music platform team",
+      duration: "2024 - 2024",
+      team: "Frontend Development Team",
       url: "https://www.thecurrent.org/",
       screenshots: [
         "/images/thecurrent/thecurrent-1.png",
@@ -221,7 +250,7 @@ export default function WindowContent({
     {
       title: "Marketplace",
       description:
-        "Auto-generates new podcast websites from configuration files",
+        "A broadcast shows, podcasts, and digital reporting. Heard by more than 10 million listerners each week on more thant 800 public radio stations nationwide",
       tech: [
         "Next.js",
         "TypeScript",
@@ -231,8 +260,8 @@ export default function WindowContent({
         "CI/CD",
       ],
       color: "text-red-400",
-      details:
-        "Streamlined podcast site creation by implementing a custom template app that auto-generates new websites from config files—now powering 6+ APMG podcast sites.",
+      // details:
+      //   "Streamlined podcast site creation by implementing a custom template app that auto-generates new websites from config files—now powering 6+ APMG podcast sites.",
       features: [
         "Automated Site Generation",
         "Customizable Templates",
@@ -242,7 +271,7 @@ export default function WindowContent({
       ],
       company: "American Public Media Group",
       duration: "2024 - 2025",
-      team: "Frontend development team",
+      team: "Frontend Development Team",
       url: "https://www.marketplace.org/",
       screenshots: [
         "/images/marketplace/marketplace-1.png",
@@ -275,7 +304,7 @@ export default function WindowContent({
       ],
       company: "American Public Media",
       duration: "2018 - Present",
-      team: "Classical music team",
+      team: "Frontend Development Team",
       url: "https://www.yourclassical.org/",
       screenshots: [
         "/images/yourclassical/yourclassical-1.png",
@@ -285,32 +314,122 @@ export default function WindowContent({
       ],
     },
     {
-      title: "Internal React Component Library",
-      description:
-        "Standardized UI components used across multiple applications",
+      title: "Carbon Sound Music Platform",
+      description: "Music platform thats influenced by black musical expression through all genres of music",
       tech: [
         "React",
+        "Next.js",
         "TypeScript",
-        "Storybook",
+        "CMS Integration",
         "CSS Modules",
-        "Jest",
-        "Rollup",
+        "GraphQL",
+        "AWS",
+        "Market Cloud Salesforce",
+        "Audio APIs",
+        "Spotify API",
+      ],
+      color: "text-indigo-600",
+      details:
+        "Built interactive music platform for Carbon Sound, featuring live streaming, music discovery, artist interviews, and concert listings. Integrated with music APIs and real-time playlist updates.",
+      features: [
+        "Live Music Streaming",
+        "Artist Discovery Engine",
+        "Concert Event Listings",
+        "Music Playlist Management",
+        "Artist Interview Archive",
+        "Social Music Sharing",
+      ],
+      company: "Minnesota Public Radio",
+      duration: "2023 - 2023",
+      team: "Frontend Development Team",
+      url: "https://www.carbonsound.fm/",
+      screenshots: [
+        "/images/carbonsound/carbonsound-1.png",
+        "/images/carbonsound/carbonsound-2.png",
+        "/images/carbonsound/carbonsound-3.png",
+        "/images/carbonsound/carbonsound-4.png",
+      ],
+    },
+    {
+      title: "The Current Music Platform",
+      description: "Minnesota's premier music discovery and streaming platform",
+      tech: [
+        "React",
+        "Next.js",
+        "TypeScript",
+        "CMS Integration",
+        "CSS Modules",
+        "GraphQL",
+        "AWS",
+        "Cognito",
+        "DynamoDB",
+        "Market Cloud Salesforce",
+        "Audio APIs",
+        "Spotify API",
+      ],
+      color: "text-indigo-600",
+      details:
+        "Built interactive music platform for The Current, featuring live streaming, music discovery, artist interviews, and concert listings. Integrated with music APIs and real-time playlist updates.",
+      features: [
+        "Live Music Streaming",
+        "Artist Discovery Engine",
+        "Concert Event Listings",
+        "Music Playlist Management",
+        "Artist Interview Archive",
+        "Social Music Sharing",
+      ],
+      company: "Minnesota Public Radio",
+      duration: "2024 - 2024",
+      team: "Frontend Development Team",
+      url: "https://www.thecurrent.org/",
+      screenshots: [
+        "/images/thecurrent/thecurrent-1.png",
+        "/images/thecurrent/thecurrent-2.png",
+        "/images/thecurrent/thecurrent-3.png",
+        "/images/thecurrent/thecurrent-4.png",
+        "/images/thecurrent/thecurrent-5.png",
+        "/images/thecurrent/thecurrent-6.png",
+        "/images/thecurrent/thecurrent-7.png",
+        "/images/thecurrent/thecurrent-8.png",
+      ],
+    },
+    {
+      title: "Caring_Bridge",
+      description:
+        "CB-Filter, a tool to filter out sensitive content from CaringBridge websites",
+      tech: [
+        "React",
+        "Redux",
+        "Saga",
+        "Axios",
+        "Node-Cron",
+        "Mocha",
+        "Node.js",
+        "Nodemon",
+        "Express",
+        "Passport.js"
       ],
       color: "text-blue-400",
       details:
-        "Streamlined UI consistency and improved code maintainability by building an internal React component library adopted across 5+ applications.",
+        "A tool to filter out sensitive content from CaringBridge websites that allows a admin to add/delete/deactivate accounts",
       features: [
-        "Standardized UI Components",
-        "Accessibility Compliance",
-        "Comprehensive Documentation",
-        "Automated Testing",
-        "Version Control",
+        "Site - button redirects to the site itself where a user can determine if it is indeed spam",
+        "Site Created & User Created - refer to the dates they were created, respectively",
+        "User & User ID - reference the specific user",
+        "Reasons - all the reasons a site was tagged"
       ],
-      company: "American Public Media Group",
-      duration: "2021 - Present",
-      team: "Frontend infrastructure team",
-      url: "https://internal-component-library.apmg.org/",
-      screenshots: ["/placeholder.svg?height=400&width=600"],
+      company: "CaringBridge",
+      duration: "2017 - 2017",
+      team: "CB-Filter team, Client project",
+      url: "https://github.com/Phanx091/Caring_Bridge",
+      screenshots: [
+        "/images/caringbridge/caringbridge-1.png",
+        "/images/caringbridge/caringbridge-2.png",
+        "/images/caringbridge/caringbridge-3.png",
+        "/images/caringbridge/caringbridge-4.png",
+        "/images/caringbridge/caringbridge-5.png",
+        "/images/caringbridge/caringbridge-6.png",
+      ],
     },
     {
       title: "Podcast Template System",
@@ -340,7 +459,7 @@ export default function WindowContent({
       url: "https://www.apmg.org/podcasts",
       screenshots: ["/placeholder.svg?height=400&width=600"],
     },
-  ];
+  ], []);
 
   // All state and handler functions go here
   const [currentPage, setCurrentPage] = useState("home");
@@ -351,23 +470,33 @@ export default function WindowContent({
   const [isDragOver, setIsDragOver] = useState(false);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedWorkProject, setSelectedWorkProject] = useState<any>(null);
+  const [selectedPersonalProject, setSelectedPersonalProject] = useState<any>(null);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
   const [trashPrompt, setTrashPrompt] = useState<string | null>(null);
 
-  const containerVariants = {
+  const containerVariants = React.useMemo(() => ({
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
         staggerChildren: 0.1,
+        duration: 0.3,
+        ease: "easeOut"
       },
     },
-  };
+  }), []);
 
-  const itemVariants = {
+  const itemVariants = React.useMemo(() => ({
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0 },
-  };
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: {
+        duration: 0.3,
+        ease: "easeOut"
+      }
+    },
+  }), []);
 
   const handleDragStart = (e: React.DragEvent, item: any) => {
     const dragData = { ...item, isFromTrash: true };
@@ -1579,9 +1708,11 @@ export default function WindowContent({
         className={`${isMobile ? "p-4" : "p-6"} text-white`}
       >
         <motion.div variants={itemVariants} className="text-center mb-8">
-          <div className="w-24 h-24 bg-gradient-to-br from-cyan-400 to-purple-500 rounded-full flex items-center justify-center mx-auto mb-4">
-            <User className="w-12 h-12 text-white" />
-          </div>
+          <img
+            src="/profile.jpg"
+            alt="Profile photo"
+            className="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-4 border-cyan-400"
+          />
           <h2
             className={`${
               isMobile ? "text-2xl" : "text-3xl"
@@ -1660,6 +1791,281 @@ export default function WindowContent({
 
   // Projects content
   if (type === "projects") {
+    // If a specific project is selected, show detailed view
+    if (selectedPersonalProject) {
+      return (
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+          className={`${isMobile ? "p-4" : "p-6"} text-white transform-gpu will-change-transform`}
+          style={{ backfaceVisibility: 'hidden' }}
+        >
+          {/* Back button */}
+          <motion.button
+            variants={itemVariants}
+            onClick={() => setSelectedPersonalProject(null)}
+            className="flex items-center space-x-2 mb-4 text-cyan-400 hover:text-cyan-400/80 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Back to Projects</span>
+          </motion.button>
+
+          <motion.div variants={itemVariants} className="mb-6">
+            <h2
+              className={`${isMobile ? "text-xl" : "text-2xl"} font-bold mb-2 transform-gpu ${
+                selectedPersonalProject.color
+              }`}
+              style={{ backfaceVisibility: 'hidden' }}
+            >
+              {selectedPersonalProject.title}
+            </h2>
+            <p className={`text-gray-300 mb-4 ${isMobile ? "text-sm" : ""}`}>
+              {selectedPersonalProject.description}
+            </p>
+            <p className={`text-gray-400 ${isMobile ? "text-xs" : "text-sm"}`}>
+              {selectedPersonalProject.details}
+            </p>
+          </motion.div>
+
+          {/* Image Gallery */}
+          {selectedPersonalProject.screenshots &&
+            selectedPersonalProject.screenshots.length > 0 && (
+              <motion.div variants={itemVariants} className="mb-6">
+                <h3
+                  className={`$${
+                    isMobile ? "text-lg" : "text-xl"
+                  } font-semibold mb-4 transform-gpu ${selectedPersonalProject.color}`}
+                  style={{ backfaceVisibility: 'hidden' }}
+                >
+                  Screenshots
+                </h3>
+                <div className="space-y-4">
+                  {/* Main images grid */}
+                  <div className={`grid w-full ${isMobile ? 'grid-cols-1' : 'grid-cols-3'} gap-4`}>
+                    {selectedPersonalProject.screenshots
+                      .slice(currentImageIndex, currentImageIndex + (isMobile ? 1 : 3))
+                      .map((screenshot: string, index: number) => (
+                        <div 
+                          key={index} 
+                          className="relative cursor-pointer w-full overflow-hidden"
+                          onClick={() => setFullscreenImage(screenshot)}
+                        >
+                          <img
+                            src={screenshot || "/placeholder.svg"}
+                            alt={`${selectedPersonalProject.title} screenshot ${currentImageIndex + index + 1}`}
+                            className="w-full h-80 object-cover object-top rounded-lg border border-gray-700 hover:opacity-90 transition-opacity bg-black/20"
+                          />
+                        </div>
+                    ))}
+                  </div>
+
+                  {/* Navigation buttons */}
+                  {selectedPersonalProject.screenshots.length > (isMobile ? 1 : 3) && (
+                    <div className="flex justify-center gap-4 mt-6">
+                      <button
+                        onClick={() =>
+                          setCurrentImageIndex(
+                            Math.max(0, currentImageIndex - 1)
+                          )
+                        }
+                        disabled={currentImageIndex === 0}
+                        className="bg-black/50 text-white p-2 rounded-full disabled:opacity-50"
+                      >
+                        <ArrowLeft className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() =>
+                          setCurrentImageIndex(
+                            Math.min(
+                              selectedPersonalProject.screenshots.length - (isMobile ? 1 : 3),
+                              currentImageIndex + (isMobile ? 1 : 1)
+                            )
+                          )
+                        }
+                        disabled={
+                          currentImageIndex >=
+                          selectedPersonalProject.screenshots.length - (isMobile ? 1 : 3)
+                        }
+                        className="bg-black/50 text-white p-2 rounded-full disabled:opacity-50"
+                      >
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Thumbnail navigation */}
+                  {selectedPersonalProject.screenshots.length > (isMobile ? 1 : 3) && (
+                    <div className="flex space-x-2 overflow-x-auto mt-4">
+                      {selectedPersonalProject.screenshots.map(
+                        (screenshot: string, index: number) => (
+                          <button
+                            key={index}
+                            onClick={() => setCurrentImageIndex(index)}
+                            className={`flex-shrink-0 w-16 h-12 rounded border-2 overflow-hidden ${
+                              index === currentImageIndex
+                                ? "border-cyan-400"
+                                : "border-gray-600"
+                            }`}
+                          >
+                            <img
+                              src={screenshot || "/placeholder.svg"}
+                              alt={`Thumbnail ${index + 1}`}
+                              className="w-full h-full object-contain"
+                            />
+                          </button>
+                        ),
+                      )}
+                    </div>
+                  )}
+
+                  {/* Fullscreen view */}
+                  {fullscreenImage && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className={
+                        isMobile
+                          ? 'fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center p-4'
+                          : 'absolute inset-0 z-50 bg-black/90 backdrop-blur-md flex items-center justify-center p-4 overflow-hidden'
+                      }
+                      onClick={() => setFullscreenImage(null)}
+                    >
+                      <div className="relative w-full h-full flex items-center justify-center">
+                        <img
+                          src={fullscreenImage}
+                          alt="Fullscreen view"
+                          className="w-full h-full object-contain rounded-lg"
+                        />
+                        <button
+                          onClick={(e: React.MouseEvent) => {
+                            e.stopPropagation();
+                            setFullscreenImage(null);
+                          }}
+                          className="absolute top-4 right-4 bg-black/50 text-white p-2 rounded-full hover:bg-black/70 transition-colors"
+                        >
+                          <X className="w-6 h-6" />
+                        </button>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+          {/* Features */}
+          <motion.div variants={itemVariants} className="mb-6">
+            <h3
+              className={`$${
+                isMobile ? "text-base" : "text-lg"
+              } font-semibold mb-2 transform-gpu ${selectedPersonalProject.color}`}
+              style={{ backfaceVisibility: 'hidden' }}
+            >
+              Key Features
+            </h3>
+            <div
+              className={`grid ${
+                isMobile ? "grid-cols-1" : "grid-cols-2"
+              } gap-3`}
+            >
+              {selectedPersonalProject.features.map((feature: string) => (
+                <div
+                  key={feature}
+                  className={`flex items-center ${
+                    isMobile ? "text-xs" : "text-sm"
+                  } text-gray-300`}
+                >
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full mr-3"></div>
+                  {feature}
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Technologies */}
+          <motion.div variants={itemVariants} className="mb-6">
+            <h3
+              className={`$${
+                isMobile ? "text-base" : "text-lg"
+              } font-semibold mb-2 transform-gpu ${selectedPersonalProject.color}`}
+              style={{ backfaceVisibility: 'hidden' }}
+            >
+              Technologies Used
+            </h3>
+            <div className="flex flex-wrap gap-2">
+              {selectedPersonalProject.tech.map((tech: string) => (
+                <span
+                  key={tech}
+                  className={`${
+                    isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"
+                  } bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200`}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+
+          {/* Action Buttons */}
+          <motion.div variants={itemVariants} className="flex flex-wrap gap-4">
+            {selectedPersonalProject.github && (
+              <motion.a
+                href={selectedPersonalProject.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${
+                  isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
+                } bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center space-x-2`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <Github className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
+                <span>View Code</span>
+              </motion.a>
+            )}
+            {selectedPersonalProject.demo && (
+              <motion.a
+                href={selectedPersonalProject.demo}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${
+                  isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
+                } bg-cyan-600 hover:bg-cyan-700 rounded-lg transition-colors flex items-center space-x-2`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <ExternalLink className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
+                <span>Live Demo</span>
+              </motion.a>
+            )}
+            {selectedPersonalProject.npm && (
+              <motion.a
+                href={selectedPersonalProject.npm}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`${
+                  isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
+                } bg-red-600 hover:bg-red-700 rounded-lg transition-colors flex items-center space-x-2`}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <svg
+                  className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`}
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                >
+                  <path d="M1.763 0C.786 0 0 .786 0 1.763v20.474C0 23.214.786 24 1.763 24h20.474c.977 0 1.763-.786 1.763-1.763V1.763C24 .786 23.214 0 22.237 0zM5.13 5.323l13.837.019-.009 13.836h-3.464l.01-10.382h-3.456L12.04 19.17H5.113z"/>
+                </svg>
+                <span>NPM Package</span>
+              </motion.a>
+            )}
+          </motion.div>
+        </motion.div>
+      );
+    }
+
+    // Default projects list view
     return (
       <motion.div
         variants={containerVariants}
@@ -1683,70 +2089,27 @@ export default function WindowContent({
         </motion.p>
 
         <div
-          className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-1"} gap-6`}
+          className={`grid ${isMobile ? "grid-cols-1" : "grid-cols-2"} gap-6`}
         >
           {projects.map((project, index) => (
             <motion.div
               key={project.title}
               variants={itemVariants}
               className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 hover:border-cyan-400/50 transition-colors cursor-pointer"
+              onClick={() => setSelectedPersonalProject(project)}
             >
               <div className="flex items-start justify-between mb-3">
                 <h3
                   className={`${
                     isMobile ? "text-lg" : "text-xl"
-                  } font-semibold ${project.color}`}
+                  } font-semibold antialiased ${project.color}`}
                 >
                   {project.title}
                 </h3>
-                <div className="flex space-x-2">
-                  <button
-                    className={`${
-                      isMobile ? "p-1" : "p-2"
-                    } bg-gray-700 hover:bg-gray-600 rounded transition-colors`}
-                  >
-                    <Github className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
-                  </button>
-                  <button
-                    className={`${
-                      isMobile ? "p-1" : "p-2"
-                    } bg-gray-700 hover:bg-gray-600 rounded transition-colors`}
-                  >
-                    <ExternalLink
-                      className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`}
-                    />
-                  </button>
-                </div>
               </div>
               <p className={`text-gray-300 mb-3 ${isMobile ? "text-sm" : ""}`}>
                 {project.description}
               </p>
-              <p
-                className={`text-gray-400 mb-4 ${
-                  isMobile ? "text-xs" : "text-sm"
-                }`}
-              >
-                {project.details}
-              </p>
-
-              <div className="mb-4">
-                <h4 className={`font-medium mb-2 ${isMobile ? "text-sm" : ""}`}>
-                  Key Features:
-                </h4>
-                <ul className="space-y-1">
-                  {project.features.map((feature) => (
-                    <li
-                      key={feature}
-                      className={`flex items-center ${
-                        isMobile ? "text-xs" : "text-sm"
-                      } text-gray-300`}
-                    >
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full mr-2"></div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
 
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((tech) => (
@@ -1754,7 +2117,7 @@ export default function WindowContent({
                     key={tech}
                     className={`${
                       isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"
-                    } bg-gray-700 rounded text-gray-300`}
+                    } bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200`}
                   >
                     {tech}
                   </span>
@@ -1960,13 +2323,14 @@ export default function WindowContent({
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className={`${isMobile ? "p-4" : "p-6"} text-white`}
+          className={`${isMobile ? "p-4" : "p-6"} text-white transform-gpu will-change-transform`}
+          style={{ backfaceVisibility: 'hidden' }}
         >
           {/* Back button */}
           <motion.button
             variants={itemVariants}
             onClick={() => setSelectedWorkProject(null)}
-            className="flex items-center space-x-2 mb-4 text-[#327e98] hover:text-[#327e98]/80 transition-colors"
+            className="flex items-center space-x-2 mb-4 text-blue-400 hover:text-blue-400/80 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             <span>Back to Projects</span>
@@ -1974,9 +2338,10 @@ export default function WindowContent({
 
           <motion.div variants={itemVariants} className="mb-6">
             <h2
-              className={`${isMobile ? "text-xl" : "text-2xl"} font-bold mb-2 ${
+              className={`${isMobile ? "text-xl" : "text-2xl"} font-bold mb-2 transform-gpu ${
                 selectedWorkProject.color
               }`}
+              style={{ backfaceVisibility: 'hidden' }}
             >
               {selectedWorkProject.title}
             </h2>
@@ -1986,7 +2351,7 @@ export default function WindowContent({
               }`}
             >
               <span className="flex items-center">
-                <div className="w-3 h-3 bg-orange-400 rounded-full mr-2"></div>
+                <div className="w-3 h-3 bg-[#ea580c] rounded-full mr-2"></div>
                 {selectedWorkProject.company}
               </span>
               <span>{selectedWorkProject.duration}</span>
@@ -2007,7 +2372,8 @@ export default function WindowContent({
                 <h3
                   className={`$${
                     isMobile ? "text-lg" : "text-xl"
-                  } font-semibold mb-4 ${selectedWorkProject.color}`}
+                  } font-semibold mb-4 transform-gpu ${selectedWorkProject.color}`}
+                  style={{ backfaceVisibility: 'hidden' }}
                 >
                   Screenshots
                 </h3>
@@ -2075,7 +2441,7 @@ export default function WindowContent({
                             onClick={() => setCurrentImageIndex(index)}
                             className={`flex-shrink-0 w-16 h-12 rounded border-2 overflow-hidden ${
                               index === currentImageIndex
-                                ? "border-[#327e98]"
+                                ? "border-blue-400"
                                 : "border-gray-600"
                             }`}
                           >
@@ -2130,7 +2496,8 @@ export default function WindowContent({
             <h3
               className={`$${
                 isMobile ? "text-base" : "text-lg"
-              } font-semibold mb-2 ${selectedWorkProject.color}`}
+              } font-semibold mb-2 transform-gpu ${selectedWorkProject.color}`}
+              style={{ backfaceVisibility: 'hidden' }}
             >
               Key Features
             </h3>
@@ -2158,7 +2525,8 @@ export default function WindowContent({
             <h3
               className={`$${
                 isMobile ? "text-base" : "text-lg"
-              } font-semibold mb-2 ${selectedWorkProject.color}`}
+              } font-semibold mb-2 transform-gpu ${selectedWorkProject.color}`}
+              style={{ backfaceVisibility: 'hidden' }}
             >
               Technologies Used
             </h3>
@@ -2183,7 +2551,8 @@ export default function WindowContent({
                 <h3
                   className={`${
                     isMobile ? "text-lg" : "text-xl"
-                  } font-semibold mb-4 text-[#327e98]`}
+                  } font-semibold mb-4 transform-gpu text-blue-400`}
+                  style={{ backfaceVisibility: 'hidden' }}
                 >
                   Awards
                 </h3>
@@ -2235,7 +2604,8 @@ export default function WindowContent({
           variants={itemVariants}
           className={`${
             isMobile ? "text-xl" : "text-2xl"
-          } font-bold mb-4 text-[#327e98]`}
+          } font-bold mb-4 transform-gpu text-blue-400`}
+          style={{ backfaceVisibility: 'hidden' }}
         >
           Work Projects
         </motion.h2>
@@ -2253,66 +2623,36 @@ export default function WindowContent({
             <motion.div
               key={project.title}
               variants={itemVariants}
-              className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 hover:border-[#327e98]/50 transition-colors cursor-pointer"
+              className="bg-gray-800/50 p-4 rounded-lg border border-gray-700 hover:border-blue-400/50 transition-colors cursor-pointer"
               onClick={() => setSelectedWorkProject(project)}
             >
               <div className="flex items-start justify-between mb-3">
                 <h3
                   className={`${
                     isMobile ? "text-lg" : "text-xl"
-                  } font-semibold ${project.color}`}
+                  } font-semibold antialiased ${project.color}`}
                 >
                   {project.title}
                 </h3>
-                {/* <div className="flex space-x-2">
-                  <button
-                    className={`${isMobile ? "p-1" : "p-2"} bg-gray-700 hover:bg-gray-600 rounded transition-colors`}
-                  >
-                    <Github className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
-                  </button>
-                  <button
-                    className={`${isMobile ? "p-1" : "p-2"} bg-gray-700 hover:bg-gray-600 rounded transition-colors`}
-                  >
-                    <ExternalLink className={`${isMobile ? "w-3 h-3" : "w-4 h-4"}`} />
-                  </button>
-                </div> */}
               </div>
               <div
-                className={`flex items-center space-x-4 text-gray-400 mb-4 ${
-                  isMobile ? "text-xs" : "text-sm"
-                }`}
+                className={`flex items-center space-x-4 text-gray-400 mb-4 ${isMobile ? "text-xs" : "text-sm"}`}
               >
                 <span className="flex items-center">
                   <div className="w-3 h-3 bg-[#ea580c] rounded-full mr-2"></div>
                   {project.company}
                 </span>
-                {/* <span>{project.duration}</span> */}
-                {/* <span>{project.team}</span> */}
+                <span>{project.duration}</span>
+                <span>{project.team}</span>
               </div>
               <p className={`text-gray-300 mb-3 ${isMobile ? "text-sm" : ""}`}>
                 {project.description}
               </p>
-              {/* <p className={`text-gray-400 mb-4 ${isMobile ? "text-xs" : "text-sm"}`}>{project.details}</p> */}
-
-              {/* <div className="mb-4">
-                <h4 className={`font-medium mb-2 ${isMobile ? "text-sm" : ""}`}>Key Features:</h4>
-                <ul className="space-y-1">
-                  {project.features.map((feature) => (
-                    <li key={feature} className={`flex items-center ${isMobile ? "text-xs" : "text-sm"} text-gray-300`}>
-                      <div className="w-2 h-2 bg-orange-400 rounded-full mr-2"></div>
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div> */}
-
               <div className="flex flex-wrap gap-2">
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className={`${
-                      isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"
-                    } bg-orange-900/30 border border-orange-400/30 rounded text-orange-200`}
+                    className={`$${isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"} bg-orange-900/30 border border-orange-400/30 rounded text-orange-200`}
                   >
                     {tech}
                   </span>
@@ -2324,15 +2664,4 @@ export default function WindowContent({
       </motion.div>
     );
   }
-
-  return (
-    <div className="flex items-center justify-center h-full bg-white">
-      <div className="text-center">
-        <Globe className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-        <h3 className="text-lg font-medium text-gray-600">
-          Content Loading...
-        </h3>
-      </div>
-    </div>
-  );
 }

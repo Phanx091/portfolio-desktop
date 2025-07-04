@@ -5,20 +5,24 @@ import { useEffect, useState } from "react"
 
 interface BackgroundAnimationProps {
   mousePosition: { x: number; y: number }
+  disableMouseEffect?: boolean
 }
 
-export default function BackgroundAnimation({ mousePosition }: BackgroundAnimationProps) {
-  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number }>>([])
-
-  useEffect(() => {
-    const newParticles = Array.from({ length: 50 }, (_, i) => ({
+export default function BackgroundAnimation({ mousePosition, disableMouseEffect = false }: BackgroundAnimationProps) {
+  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number }>>(() => {
+    // Initialize particles only once
+    return Array.from({ length: 25 }, (_, i) => ({
       id: i,
-      x: Math.random() * window.innerWidth,
-      y: Math.random() * window.innerHeight,
-      size: Math.random() * 3 + 1,
+      x: Math.random() * (typeof window !== 'undefined' ? window.innerWidth : 1920),
+      y: Math.random() * (typeof window !== 'undefined' ? window.innerHeight : 1080),
+      size: Math.random() * 2 + 1,
     }))
-    setParticles(newParticles)
-  }, [])
+  })
+
+  // Use static center position if mouse effect is disabled
+  const effectiveMousePosition = disableMouseEffect
+    ? { x: window.innerWidth / 2, y: window.innerHeight / 2 }
+    : mousePosition;
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -38,7 +42,7 @@ export default function BackgroundAnimation({ mousePosition }: BackgroundAnimati
       {particles.map((particle) => (
         <motion.div
           key={particle.id}
-          className="absolute bg-cyan-400 rounded-full opacity-30"
+          className="absolute bg-cyan-400 rounded-full opacity-20"
           style={{
             width: particle.size,
             height: particle.size,
@@ -46,13 +50,13 @@ export default function BackgroundAnimation({ mousePosition }: BackgroundAnimati
             top: particle.y,
           }}
           animate={{
-            y: [particle.y, particle.y - 100, particle.y],
-            opacity: [0.3, 0.6, 0.3],
+            y: [particle.y, particle.y - 80, particle.y],
+            opacity: [0.2, 0.4, 0.2],
           }}
           transition={{
-            duration: 10 + Math.random() * 10,
+            duration: 15 + particle.id * 0.5,
             repeat: Number.POSITIVE_INFINITY,
-            ease: "easeInOut",
+            ease: "linear",
           }}
         />
       ))}
@@ -61,18 +65,19 @@ export default function BackgroundAnimation({ mousePosition }: BackgroundAnimati
       <motion.div
         className="absolute inset-0"
         style={{
-          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgba(59, 130, 246, 0.1) 0%, transparent 50%)`,
+          background: `radial-gradient(circle at ${effectiveMousePosition.x}px ${effectiveMousePosition.y}px, rgba(59, 130, 246, 0.1) 0%, transparent 50%)`,
         }}
       />
 
-      {/* Flowing Code Effect */}
-      <div className="absolute inset-0 opacity-5">
-        <motion.div
-          animate={{ y: [-100, window.innerHeight + 100] }}
-          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-          className="text-green-400 font-mono text-xs whitespace-pre-line"
-        >
-          {`const portfolio = {
+      {/* Flowing Code Effect - Only show when no windows are open */}
+      {!disableMouseEffect && (
+        <div className="absolute inset-0 opacity-3">
+          <motion.div
+            animate={{ y: [-100, (typeof window !== 'undefined' ? window.innerHeight : 1080) + 100] }}
+            transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+            className="text-green-400 font-mono text-xs whitespace-pre-line"
+          >
+            {`const portfolio = {
   name: "Frontend Engineer",
   skills: ["React", "Next.js", "TypeScript"],
   passion: "Creating amazing experiences"
@@ -81,8 +86,9 @@ export default function BackgroundAnimation({ mousePosition }: BackgroundAnimati
 function buildFuture() {
   return innovation + creativity;
 }`}
-        </motion.div>
-      </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   )
 }
