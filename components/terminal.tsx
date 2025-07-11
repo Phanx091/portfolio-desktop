@@ -120,7 +120,14 @@ const terminalCommands: { [key: string]: string[] } = {
   "clear": [],
 };
 
-export default function Terminal() {
+interface TerminalProps {
+  onClose?: () => void;
+  onMinimize?: () => void;
+  onMaximize?: () => void;
+  isMaximized?: boolean;
+}
+
+export default function Terminal({ onClose, onMinimize, onMaximize, isMaximized = false }: TerminalProps) {
   const [displayLines, setDisplayLines] = useState<string[]>([]);
   const [currentLineIndex, setCurrentLineIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
@@ -245,6 +252,24 @@ export default function Terminal() {
     }
   };
 
+  const handleClose = () => {
+    if (onClose) {
+      onClose();
+    }
+  };
+
+  const handleMinimize = () => {
+    if (onMinimize) {
+      onMinimize();
+    }
+  };
+
+  const handleMaximize = () => {
+    if (onMaximize) {
+      onMaximize();
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -254,9 +279,25 @@ export default function Terminal() {
     >
       <div className="flex items-center mb-2 pb-2 border-b border-gray-700">
         <div className="flex space-x-2">
-          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+          <button
+            onClick={handleClose}
+            className="w-3 h-3 bg-red-500 rounded-full hover:bg-red-400 transition-colors cursor-pointer"
+            title="Close"
+          />
+          <button
+            onClick={handleMinimize}
+            className="w-3 h-3 bg-yellow-500 rounded-full hover:bg-yellow-400 transition-colors cursor-pointer"
+            title="Minimize"
+          />
+          <button
+            onClick={handleMaximize}
+            className={`w-3 h-3 rounded-full transition-colors cursor-pointer ${
+              isMaximized 
+                ? "bg-green-600 hover:bg-green-500" 
+                : "bg-green-500 hover:bg-green-400"
+            }`}
+            title={isMaximized ? "Restore" : "Maximize"}
+          />
         </div>
         <span className="text-gray-400 ml-4 text-xs">terminal</span>
       </div>

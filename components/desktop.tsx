@@ -21,6 +21,9 @@ export default function Desktop() {
   const [viewportWidth, setViewportWidth] = useState(1920); // Default fallback
   const [viewportHeight, setViewportHeight] = useState(1080); // Default fallback
   const [isStickyNoteOpen, setIsStickyNoteOpen] = useState(false);
+  const [isTerminalVisible, setIsTerminalVisible] = useState(true);
+  const [isTerminalMinimized, setIsTerminalMinimized] = useState(false);
+  const [isTerminalMaximized, setIsTerminalMaximized] = useState(false);
 
   // Check if any windows are open (not minimized)
   const hasOpenWindows = windows.length > 0;
@@ -185,6 +188,27 @@ export default function Desktop() {
     setTrashedItems((prev) => prev.filter((item) => item.id !== itemId));
   };
 
+  // Terminal window management functions
+  const handleTerminalClose = () => {
+    setIsTerminalVisible(false);
+  };
+
+  const handleTerminalMinimize = () => {
+    setIsTerminalMinimized(true);
+  };
+
+  const handleTerminalMaximize = () => {
+    setIsTerminalMaximized(!isTerminalMaximized);
+  };
+
+  const handleToggleTerminal = () => {
+    if (isTerminalMinimized) {
+      setIsTerminalMinimized(false);
+    } else {
+      setIsTerminalVisible(!isTerminalVisible);
+    }
+  };
+
   // Update existing windows when viewport changes
   useEffect(() => {
     if (windows.length > 0) {
@@ -258,16 +282,25 @@ export default function Desktop() {
       </div>
 
       {/* Terminal - repositioned for mobile to bottom */}
-      <div
-        className={
-          isMobile
-            ? "fixed bottom-16 left-2 right-2 h-80 max-w-full"
-            : "absolute top-8 right-8 w-96 h-96"
-        }
-        style={{ zIndex: 10 }} // Terminal above icons but below windows
-      >
-        <Terminal />
-      </div>
+      {isTerminalVisible && !isTerminalMinimized && (
+        <div
+          className={
+            isMobile
+              ? "fixed bottom-16 left-2 right-2 h-80 max-w-full"
+              : isTerminalMaximized
+              ? "fixed inset-0 z-50"
+              : "absolute top-8 right-8 w-96 h-96"
+          }
+          style={{ zIndex: isTerminalMaximized ? 9998 : 10 }} // Terminal above icons but below windows
+        >
+          <Terminal
+            onClose={handleTerminalClose}
+            onMinimize={handleTerminalMinimize}
+            onMaximize={handleTerminalMaximize}
+            isMaximized={isTerminalMaximized}
+          />
+        </div>
+      )}
 
       {/* Windows - Highest z-index */}
       <WindowManager
@@ -284,6 +317,9 @@ export default function Desktop() {
           minimizedWindows={minimizedWindows}
           onRestore={restoreWindow}
           isMobile={isMobile}
+          isTerminalMinimized={isTerminalMinimized}
+          onRestoreTerminal={() => setIsTerminalMinimized(false)}
+          onToggleTerminal={handleToggleTerminal}
         />
       </div>
 
@@ -302,7 +338,7 @@ export default function Desktop() {
           </div>
         )
       ) : (
-        <div className="absolute top-[20px] right-0 w-96 z-20">````
+        <div className="absolute top-[20px] right-0 w-96 z-20">
           <TerminalCommandsNote isMobile={isMobile} />
         </div>
       )}

@@ -7,12 +7,18 @@ interface TaskbarProps {
   minimizedWindows: any[];
   onRestore: (id: number) => void;
   isMobile?: boolean;
+  isTerminalMinimized?: boolean;
+  onRestoreTerminal?: () => void;
+  onToggleTerminal?: () => void;
 }
 
 export default function Taskbar({
   minimizedWindows,
   onRestore,
   isMobile = false,
+  isTerminalMinimized = false,
+  onRestoreTerminal,
+  onToggleTerminal,
 }: TaskbarProps) {
   const now = new Date();
   const currentDateTime =
@@ -41,11 +47,17 @@ export default function Taskbar({
         <motion.button
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log("Taskbar: Clicked N button to toggle terminal!");
+            onToggleTerminal?.();
+          }}
           className={`${
             isMobile ? "w-10 h-10" : "w-8 h-8"
           } bg-gradient-to-br from-cyan-400 to-purple-500 rounded flex items-center justify-center text-white font-bold ${
             isMobile ? "text-base" : "text-sm"
-          }`}
+          } cursor-pointer`}
         >
           N
         </motion.button>
@@ -95,6 +107,30 @@ export default function Taskbar({
               </span>
             </motion.button>
           ))}
+          
+          {/* Terminal Button */}
+          {isTerminalMinimized && onRestoreTerminal && (
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                console.log("Taskbar: Clicked terminal button!");
+                onRestoreTerminal();
+              }}
+              className={`${
+                isMobile ? "px-3 py-2" : "px-4 py-2"
+              } bg-gray-800 hover:bg-green-600 border border-gray-600 hover:border-green-400 rounded text-white ${
+                isMobile ? "text-xs" : "text-sm"
+              } flex items-center space-x-2 transition-all duration-200 whitespace-nowrap cursor-pointer select-none`}
+              style={{ minHeight: "32px", minWidth: isMobile ? 0 : "80px" }}
+            >
+              <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+              <span className={isMobile ? "hidden sm:inline" : ""}>
+                Terminal
+              </span>
+            </motion.button>
+          )}
         </div>
       </div>
 

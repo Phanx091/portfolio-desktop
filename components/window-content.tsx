@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Github,
@@ -922,59 +922,59 @@ export default function WindowContent({
     return (
       <div className="h-full bg-white flex flex-col">
         {/* Browser toolbar */}
-        <div className="bg-gray-200 border-b border-gray-400 p-2 flex items-center space-x-2">
+        <div className={`bg-gray-200 border-b border-gray-400 ${isMobile ? 'p-1' : 'p-2'} flex items-center space-x-2`}>
           {/* Navigation buttons */}
           <div className="flex items-center space-x-1">
             <button
               onClick={handleBack}
               disabled={historyIndex <= 0}
-              className={`p-2 rounded hover:bg-gray-300 transition-colors ${
+              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors ${
                 historyIndex <= 0 ? "opacity-50 cursor-not-allowed" : ""
               }`}
               title="Back"
             >
-              <ArrowLeft className="w-4 h-4 text-gray-700" />
+              <ArrowLeft className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
             </button>
             <button
               onClick={handleForward}
               disabled={historyIndex >= history.length - 1}
-              className={`p-2 rounded hover:bg-gray-300 transition-colors ${
+              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors ${
                 historyIndex >= history.length - 1
                   ? "opacity-50 cursor-not-allowed"
                   : ""
               }`}
               title="Forward"
             >
-              <ArrowRight className="w-4 h-4 text-gray-700" />
+              <ArrowRight className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
             </button>
             <button
               onClick={handleRefresh}
-              className="p-2 rounded hover:bg-gray-300 transition-colors"
+              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
               title="Refresh"
             >
               <RotateCw
-                className={`w-4 h-4 text-gray-700 ${
+                className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700 ${
                   isLoading ? "animate-spin" : ""
                 }`}
               />
             </button>
             <button
               onClick={handleHome}
-              className="p-2 rounded hover:bg-gray-300 transition-colors"
+              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
               title="Home"
             >
-              <Home className="w-4 h-4 text-gray-700" />
+              <Home className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
             </button>
           </div>
 
           {/* Address bar */}
           <form onSubmit={handleUrlSubmit} className="flex-1 flex items-center">
-            <div className="flex-1 flex items-center bg-white border-2 border-gray-400 rounded-full px-3 py-1 focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500">
+            <div className={`flex-1 flex items-center bg-white border-2 border-gray-400 rounded-full ${isMobile ? 'px-2 py-0.5' : 'px-3 py-1'} focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500`}>
               <div className="flex items-center space-x-2 mr-2">
                 {currentPage === "home" ? (
-                  <Globe className="w-4 h-4 text-gray-600" />
+                  <Globe className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-600`} />
                 ) : (
-                  <Lock className="w-4 h-4 text-green-600" />
+                  <Lock className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-green-600`} />
                 )}
               </div>
               <input
@@ -983,15 +983,15 @@ export default function WindowContent({
                 onChange={(e) => setInputUrl(e.target.value)}
                 onFocus={() => setInputUrl("")}
                 onBlur={() => !inputUrl && setInputUrl("")}
-                className="flex-1 outline-none text-sm text-gray-800"
-                placeholder="Search Google or type a URL"
+                className={`flex-1 outline-none ${isMobile ? 'text-xs' : 'text-sm'} text-gray-800`}
+                placeholder={isMobile ? "Search or type URL" : "Search Google or type a URL"}
               />
               <button
                 type="submit"
-                className="p-1 hover:bg-gray-200 rounded"
+                className={`${isMobile ? 'p-0.5' : 'p-1'} hover:bg-gray-200 rounded`}
                 title="Go"
               >
-                <Search className="w-4 h-4 text-gray-600" />
+                <Search className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-600`} />
               </button>
             </div>
           </form>
@@ -999,15 +999,15 @@ export default function WindowContent({
           {/* Browser menu */}
           <div className="flex items-center space-x-1">
             <button
-              className="p-2 rounded hover:bg-gray-300 transition-colors"
+              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
               title="Bookmark"
             >
-              <Bookmark className="w-4 h-4 text-gray-700" />
+              <Bookmark className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
             </button>
-            <button className="p-2 rounded hover:bg-gray-300 transition-colors">
-              <div className="w-1 h-1 bg-gray-700 rounded-full"></div>
-              <div className="w-1 h-1 bg-gray-700 rounded-full mt-1"></div>
-              <div className="w-1 h-1 bg-gray-700 rounded-full mt-1"></div>
+            <button className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}>
+              <div className={`${isMobile ? 'w-0.5 h-0.5' : 'w-1 h-1'} bg-gray-700 rounded-full`}></div>
+              <div className={`${isMobile ? 'w-0.5 h-0.5' : 'w-1 h-1'} bg-gray-700 rounded-full mt-1`}></div>
+              <div className={`${isMobile ? 'w-0.5 h-0.5' : 'w-1 h-1'} bg-gray-700 rounded-full mt-1`}></div>
             </button>
           </div>
         </div>
@@ -1264,22 +1264,22 @@ export default function WindowContent({
             FRONTEND ENGINEER
           </h2>
 
-          <div className="flex flex-wrap justify-center items-center gap-4 text-sm">
+          <div className={`flex ${isMobile ? 'flex-col gap-2' : 'flex-wrap justify-center items-center gap-4'} text-sm`}>
             <div className="flex items-center text-gray-300">
-              <Phone className="w-4 h-4 mr-2 text-green-400" />
-              <span>+1 612 325 1178</span>
+              <Phone className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} mr-2 text-green-400`} />
+              <span className={isMobile ? 'text-xs' : ''}>+1 612 325 1178</span>
             </div>
             <div className="flex items-center text-gray-300">
-              <Mail className="w-4 h-4 mr-2 text-green-400" />
-              <span>jason.jayphan@gmail.com</span>
+              <Mail className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} mr-2 text-green-400`} />
+              <span className={isMobile ? 'text-xs' : ''}>jason.jayphan@gmail.com</span>
             </div>
             <div className="flex items-center text-gray-300">
-              <MapPin className="w-4 h-4 mr-2 text-green-400" />
-              <span>Los Angeles, CA</span>
+              <MapPin className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} mr-2 text-green-400`} />
+              <span className={isMobile ? 'text-xs' : ''}>Los Angeles, CA</span>
             </div>
             <div className="flex items-center text-gray-300">
-              <Linkedin className="w-4 h-4 mr-2 text-green-400" />
-              <span>linkedin.com/in/jason-phan-dev</span>
+              <Linkedin className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} mr-2 text-green-400`} />
+              <span className={isMobile ? 'text-xs' : ''}>linkedin.com/in/jason-phan-dev</span>
             </div>
           </div>
         </motion.div>
@@ -1287,16 +1287,16 @@ export default function WindowContent({
         {/* Action buttons */}
         <motion.div
           variants={itemVariants}
-          className="flex justify-center space-x-4 mb-8"
+          className={`flex ${isMobile ? 'flex-col space-y-2' : 'justify-center space-x-4'} mb-8`}
         >
           <button
             onClick={handleDownloadPDF}
             className={`${
-              isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
-            } bg-green-600 hover:bg-green-700 rounded-lg transition-colors flex items-center space-x-2 font-medium`}
+              isMobile ? "px-4 py-3 text-sm" : "px-6 py-3"
+            } bg-green-600 hover:bg-green-700 rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium`}
           >
             <svg
-              className="w-4 h-4"
+              className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -1313,11 +1313,11 @@ export default function WindowContent({
           <button
             onClick={handlePrint}
             className={`${
-              isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
-            } bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center space-x-2 font-medium`}
+              isMobile ? "px-4 py-3 text-sm" : "px-6 py-3"
+            } bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium`}
           >
             <svg
-              className="w-4 h-4"
+              className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`}
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -2114,7 +2114,7 @@ export default function WindowContent({
 
         <motion.div
           variants={itemVariants}
-          className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8"
+          className={`grid ${isMobile ? 'grid-cols-1 gap-4' : 'grid-cols-1 md:grid-cols-2 gap-6'} mb-8`}
         >
           {/* Email */}
           <motion.a
@@ -2124,12 +2124,12 @@ export default function WindowContent({
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center group-hover:bg-blue-400 transition-colors">
-                <Mail className="w-6 h-6 text-white" />
+              <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} bg-blue-500 rounded-lg flex items-center justify-center group-hover:bg-blue-400 transition-colors`}>
+                <Mail className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
               </div>
               <div>
                 <h3 className="font-semibold text-blue-400 mb-1">Email</h3>
-                <p className="text-gray-300 text-sm">jason.jayphan@gmail.com</p>
+                <p className={`text-gray-300 ${isMobile ? 'text-xs' : 'text-sm'}`}>jason.jayphan@gmail.com</p>
               </div>
             </div>
           </motion.a>
@@ -2142,12 +2142,12 @@ export default function WindowContent({
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center group-hover:bg-green-400 transition-colors">
-                <Phone className="w-6 h-6 text-white" />
+              <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} bg-green-500 rounded-lg flex items-center justify-center group-hover:bg-green-400 transition-colors`}>
+                <Phone className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
               </div>
               <div>
                 <h3 className="font-semibold text-green-400 mb-1">Phone</h3>
-                <p className="text-gray-300 text-sm">+1 (612) 325-1178</p>
+                <p className={`text-gray-300 ${isMobile ? 'text-xs' : 'text-sm'}`}>+1 (612) 325-1178</p>
               </div>
             </div>
           </motion.a>
@@ -2162,12 +2162,12 @@ export default function WindowContent({
             whileTap={{ scale: 0.98 }}
           >
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors">
-                <Linkedin className="w-6 h-6 text-white" />
+              <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} bg-blue-600 rounded-lg flex items-center justify-center group-hover:bg-blue-500 transition-colors`}>
+                <Linkedin className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
               </div>
               <div>
                 <h3 className="font-semibold text-blue-400 mb-1">LinkedIn</h3>
-                <p className="text-gray-300 text-sm">jason-phan-dev</p>
+                <p className={`text-gray-300 ${isMobile ? 'text-xs' : 'text-sm'}`}>jason-phan-dev</p>
               </div>
             </div>
           </motion.a>
@@ -2175,12 +2175,12 @@ export default function WindowContent({
           {/* Location */}
           <motion.div className="bg-gradient-to-br from-purple-900/30 to-pink-900/30 p-6 rounded-lg border border-purple-400/20">
             <div className="flex items-center space-x-4">
-              <div className="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-white" />
+              <div className={`${isMobile ? 'w-10 h-10' : 'w-12 h-12'} bg-purple-500 rounded-lg flex items-center justify-center`}>
+                <MapPin className={`${isMobile ? 'w-5 h-5' : 'w-6 h-6'} text-white`} />
               </div>
               <div>
                 <h3 className="font-semibold text-purple-400 mb-1">Location</h3>
-                <p className="text-gray-300 text-sm">Los Angeles, CA</p>
+                <p className={`text-gray-300 ${isMobile ? 'text-xs' : 'text-sm'}`}>Los Angeles, CA</p>
               </div>
             </div>
           </motion.div>
@@ -2220,13 +2220,13 @@ export default function WindowContent({
         {/* Quick Actions */}
         <motion.div
           variants={itemVariants}
-          className="flex flex-wrap justify-center gap-4"
+          className={`flex ${isMobile ? 'flex-col space-y-3' : 'flex-wrap justify-center gap-4'}`}
         >
           <motion.a
             href="mailto:jason.jayphan@gmail.com?subject=Let's Connect&body=Hi Jason, I'd like to discuss..."
             className={`${
-              isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
-            } bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors flex items-center space-x-2 font-medium`}
+              isMobile ? "px-4 py-3 text-sm" : "px-6 py-3"
+            } bg-pink-600 hover:bg-pink-700 rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -2239,8 +2239,8 @@ export default function WindowContent({
             target="_blank"
             rel="noopener noreferrer"
             className={`${
-              isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
-            } bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center space-x-2 font-medium`}
+              isMobile ? "px-4 py-3 text-sm" : "px-6 py-3"
+            } bg-blue-600 hover:bg-blue-700 rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
@@ -2258,8 +2258,8 @@ export default function WindowContent({
               })
             }
             className={`${
-              isMobile ? "px-4 py-2 text-sm" : "px-6 py-3"
-            } bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center space-x-2 font-medium`}
+              isMobile ? "px-4 py-3 text-sm" : "px-6 py-3"
+            } bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium`}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
