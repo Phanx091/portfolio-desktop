@@ -68,6 +68,48 @@ input, textarea, select {
   font-size: 16px;
 }
 
+/* Additional mobile keyboard prevention */
+* {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Allow text selection only for actual text content */
+p, span, div, h1, h2, h3, h4, h5, h6 {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* Prevent focus on non-input elements */
+div, span, button, [role="button"] {
+  outline: none !important;
+}
+
+/* Disable touch callouts on mobile */
+* {
+  -webkit-touch-callout: none;
+}
+
+/* Prevent keyboard on touch events */
+@media (max-width: 768px) {
+  button, [role="button"], .cursor-pointer, div[onClick], div[onPointerUp] {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: none !important;
+  }
+}
+
 /* Glow effects */
 .glow-cyan {
   box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
