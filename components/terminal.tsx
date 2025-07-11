@@ -252,6 +252,11 @@ export default function Terminal({ onClose, onMinimize, onMaximize, isMaximized 
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    // Convert input to lowercase as user types
+    setUserInput(e.target.value.toLowerCase());
+  };
+
   const handleClose = () => {
     if (onClose) {
       onClose();
@@ -342,7 +347,7 @@ export default function Terminal({ onClose, onMinimize, onMaximize, isMaximized 
               ref={inputRef}
               type="text"
               value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
+              onChange={handleInputChange}
               onKeyDown={handleKeyDown}
               className="flex-1 bg-transparent text-green-400 outline-none border-none font-mono text-sm"
               placeholder="Type a command..."
