@@ -654,7 +654,7 @@ export default function WindowContent({
     try {
       console.log(`Fetching tech news from API (page ${page})...`);
       const response = await fetch(
-        `https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=acd0a4c2bbba4fb0af5b229facf55cf4&pageSize=10&page=${page}`
+        `/api/news?page=${page}&pageSize=10`
       );
       
       if (response.ok) {
@@ -2064,9 +2064,7 @@ export default function WindowContent({
               {selectedPersonalProject.tech.map((tech: string) => (
                 <span
                   key={tech}
-                  className={`${
-                    isMobile ? "px-4 py-1 text-xs" : "px-5 py-1 text-xs"
-                  } bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200`}
+                  className="px-5 py-1 text-xs bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200"
                 >
                   {tech}
                 </span>
@@ -2182,9 +2180,7 @@ export default function WindowContent({
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className={`${
-                      isMobile ? "px-4 py-1 text-xs" : "px-5 py-1 text-xs"
-                    } bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200`}
+                    className={`px-5 py-1 text-xs bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200`}
                   >
                     {tech}
                   </span>
@@ -2601,7 +2597,7 @@ export default function WindowContent({
               {selectedWorkProject.tech.map((tech: string) => (
                 <span
                   key={tech}
-                  className="inline-block px-3 py-1 text-xs font-medium bg-orange-900/30 border border-orange-400/30 rounded-full text-orange-200 mb-1 mr-2"
+                  className="px-5 py-1 text-xs bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200"
                 >
                   {tech}
                 </span>
@@ -2717,7 +2713,7 @@ export default function WindowContent({
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className="inline-block px-3 py-1 text-xs font-medium bg-orange-900/30 border border-orange-400/30 rounded-full text-orange-200 mb-1 mr-2"
+                    className="px-5 py-1 text-xs bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200"
                   >
                     {tech}
                   </span>
