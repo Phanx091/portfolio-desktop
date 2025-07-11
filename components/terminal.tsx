@@ -171,11 +171,12 @@ export default function Terminal({ onClose, onMinimize, onMaximize, isMaximized 
     } else {
       // Typing is complete, enable interactive mode
       setIsTypingComplete(true);
-      if (inputRef.current) {
+      // Only auto-focus on desktop, not mobile
+      if (inputRef.current && !isMobile) {
         inputRef.current.focus();
       }
     }
-  }, [currentLineIndex, currentCharIndex, fullContent]);
+  }, [currentLineIndex, currentCharIndex, fullContent, isMobile]);
 
   // Auto-scroll to bottom when content changes
   useEffect(() => {
@@ -237,12 +238,14 @@ export default function Terminal({ onClose, onMinimize, onMaximize, isMaximized 
       setUserOutputs(prev => [...prev, output]);
       setUserInput("");
       
-      // Auto-focus back to input
-      setTimeout(() => {
-        if (inputRef.current) {
-          inputRef.current.focus();
-        }
-      }, 100);
+      // Only auto-focus back to input on desktop
+      if (!isMobile) {
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.focus();
+          }
+        }, 100);
+      }
     }
   };
 
@@ -349,9 +352,14 @@ export default function Terminal({ onClose, onMinimize, onMaximize, isMaximized 
               value={userInput}
               onChange={handleInputChange}
               onKeyDown={handleKeyDown}
+              onClick={(e) => {
+                // Only focus if explicitly clicked by user
+                if (e.target === inputRef.current) {
+                  inputRef.current?.focus();
+                }
+              }}
               className="flex-1 bg-transparent text-green-400 outline-none border-none font-mono text-sm"
               placeholder="Type a command..."
-              autoFocus
             />
             {/* Enter button for mobile only */}
             {isMobile && userInput.trim() && (

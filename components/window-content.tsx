@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { motion } from "framer-motion";
 import {
   Github,
@@ -28,6 +28,7 @@ import {
   Briefcase,
   Chrome,
   X,
+  Calendar,
 } from "lucide-react";
 
 interface WindowContentProps {
@@ -96,7 +97,7 @@ export default function WindowContent({
       ],
     },
     {
-      title: "Hacker Feeds App",
+      title: "Hacker Feeds Prototype",
       description: "RSS feed aggregator similar to Feedly",
       tech: [
         "JavaScript",
@@ -430,6 +431,9 @@ export default function WindowContent({
   const [selectedPersonalProject, setSelectedPersonalProject] = useState<any>(null);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
   const [trashPrompt, setTrashPrompt] = useState<string | null>(null);
+  const [techNews, setTechNews] = useState<any[]>([]);
+  const [newsLoading, setNewsLoading] = useState(false);
+  const [newsPage, setNewsPage] = useState(1);
 
   const containerVariants = React.useMemo(() => ({
     hidden: { opacity: 0 },
@@ -602,17 +606,25 @@ export default function WindowContent({
   const getPageTitle = () => {
     switch (currentPage) {
       case "home":
-        return "New Tab";
+        return "Chrome - New Tab";
       case "google":
         return "Google";
       case "github":
-        return "GitHub";
+        return "GitHub - Jason Phan";
       case "portfolio":
-        return "Portfolio";
+        return "Portfolio - Frontend Engineer";
       case "news":
         return "Tech News";
-      case "blocked":
-        return "Site Blocked";
+      case "resume":
+        return "Resume - Jason Phan";
+      case "contact":
+        return "Contact - Jason Phan";
+      case "about":
+        return "About - Jason Phan";
+      case "projects":
+        return "Projects - Jason Phan";
+      case "work-projects":
+        return "Work Projects - Jason Phan";
       default:
         return "Chrome";
     }
@@ -637,6 +649,59 @@ export default function WindowContent({
     }
   };
 
+  const fetchTechNews = useCallback(async (page = 1, append = false) => {
+    setNewsLoading(true);
+    try {
+      console.log(`Fetching tech news from API (page ${page})...`);
+      const response = await fetch(
+        `https://newsapi.org/v2/top-headlines?country=us&category=technology&apiKey=acd0a4c2bbba4fb0af5b229facf55cf4&pageSize=10&page=${page}`
+      );
+      
+      if (response.ok) {
+        const data = await response.json();
+        console.log("API response:", data);
+        console.log("Articles count:", data.articles?.length || 0);
+        
+        if (append) {
+          setTechNews(prev => [...prev, ...(data.articles || [])]);
+        } else {
+          setTechNews(data.articles || []);
+        }
+        setNewsPage(page);
+      } else {
+        console.error("API request failed with status:", response.status);
+        throw new Error('API request failed');
+      }
+    } catch (error) {
+      console.error("Error fetching tech news:", error);
+      // Don't set any data on error - let the UI handle empty state
+      if (!append) {
+        setTechNews([]);
+      }
+    } finally {
+      setNewsLoading(false);
+    }
+  }, []);
+
+  // Fetch tech news when news page is loaded
+  useEffect(() => {
+    if (currentPage === "news" && techNews.length === 0) {
+      console.log("Triggering tech news fetch...");
+      fetchTechNews(1, false);
+    }
+  }, [currentPage, fetchTechNews]);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    
+    if (diffInHours < 1) return "Just now";
+    if (diffInHours < 24) return `${diffInHours} hours ago`;
+    if (diffInHours < 48) return "Yesterday";
+    return date.toLocaleDateString();
+  };
+
   const renderPageContent = () => {
     switch (currentPage) {
       case "home":
@@ -652,7 +717,7 @@ export default function WindowContent({
                     type="text"
                     value={inputUrl}
                     onChange={(e) => setInputUrl(e.target.value)}
-                    placeholder="Search Google or type a URL"
+                    placeholder="Search or enter URL"
                     className="w-full max-w-lg px-6 py-4 text-lg border border-gray-300 rounded-full shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   />
                   <Search className="absolute right-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
@@ -740,7 +805,7 @@ export default function WindowContent({
             <div className="max-w-4xl mx-auto">
               <div className="flex items-center mb-8">
                 <Github className="w-8 h-8 mr-3" />
-                <h1 className="text-3xl font-bold">GitHub</h1>
+                <h1 className="text-3xl font-bold">Jason Phan's GitHub</h1>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -749,29 +814,77 @@ export default function WindowContent({
                     Popular Repositories
                   </h3>
                   <div className="space-y-3">
-                    {["react", "vue", "angular", "next.js"].map((repo) => (
-                      <div
-                        key={repo}
-                        className="flex items-center space-x-3 p-3 bg-gray-700 rounded"
+                    {[
+                      {
+                        name: "portfolio-desktop",
+                        description: "Futuristic portfolio with desktop OS interface",
+                        url: "https://github.com/Phanx091/portfolio-desktop",
+                        language: "TypeScript",
+                        stars: "⭐"
+                      },
+                      {
+                        name: "apm-react-audio-player",
+                        description: "Custom React audio player component",
+                        url: "https://github.com/APMG/apm-react-audio-player",
+                        language: "JavaScript",
+                        stars: "⭐"
+                      },
+                      {
+                        name: "laptop-migration-kit",
+                        description: "Comprehensive MacBook backup and restore toolkit",
+                        url: "https://github.com/Phanx091/laptop-migration-kit",
+                        language: "Shell",
+                        stars: "⭐"
+                      },
+                      {
+                        name: "mongodb-lambda",
+                        description: "MongoDB to Lambda connection example",
+                        url: "https://github.com/Phanx091/mongodb-lambda",
+                        language: "JavaScript",
+                        stars: "⭐"
+                      }
+                    ].map((repo) => (
+                      <a
+                        key={repo.name}
+                        href={repo.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex items-center space-x-3 p-3 bg-gray-700 rounded hover:bg-gray-600 transition-colors cursor-pointer group"
                       >
                         <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                        <span>{repo}</span>
-                        <Star className="w-4 h-4 ml-auto" />
-                      </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="font-medium text-white group-hover:text-blue-300 transition-colors">
+                            {repo.name}
+                          </div>
+                          <div className="text-sm text-gray-400 truncate">
+                            {repo.description}
+                          </div>
+                        </div>
+                        <div className="flex items-center space-x-2 text-sm text-gray-400">
+                          <span>{repo.language}</span>
+                          <span>{repo.stars}</span>
+                        </div>
+                      </a>
                     ))}
                   </div>
                 </div>
 
                 <div className="bg-gray-800 p-6 rounded-lg">
-                  <h3 className="text-xl font-semibold mb-4">Trending</h3>
+                  <h3 className="text-xl font-semibold mb-4">Skills & Technologies</h3>
                   <div className="space-y-3">
-                    {["AI Tools", "Web3 Projects", "Mobile Apps", "DevOps"].map(
-                      (trend) => (
-                        <div key={trend} className="p-3 bg-gray-700 rounded">
-                          <span>{trend}</span>
-                        </div>
-                      ),
-                    )}
+                    {[
+                      { name: "React.js", level: "Advanced" },
+                      { name: "Next.js", level: "Advanced" },
+                      { name: "TypeScript", level: "Advanced" },
+                      { name: "Node.js", level: "Intermediate" },
+                      { name: "GraphQL", level: "Intermediate" },
+                      { name: "Figma", level: "Intermediate" }
+                    ].map((skill) => (
+                      <div key={skill.name} className="flex items-center justify-between p-3 bg-gray-700 rounded">
+                        <span className="font-medium">{skill.name}</span>
+                        <span className="text-sm text-green-400">{skill.level}</span>
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
@@ -824,55 +937,98 @@ export default function WindowContent({
 
       case "news":
         return (
-          <div className="h-full bg-white p-8">
-            <div className="max-w-4xl mx-auto">
-              <h1 className="text-3xl font-bold mb-8 text-gray-800">
-                Tech News
-              </h1>
+          <div className="h-full bg-white flex flex-col">
+            <div className="flex-shrink-0 p-8 pb-4">
+              <div className="max-w-4xl mx-auto">
+                <div className="flex items-center justify-between mb-8">
+                  <h1 className="text-3xl font-bold text-gray-800">
+                    Tech News
+                  </h1>
+                  <button
+                    onClick={() => fetchTechNews(newsPage + 1, false)}
+                    disabled={newsLoading}
+                    className="flex items-center space-x-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors disabled:opacity-50"
+                  >
+                    <RotateCw className={`w-4 h-4 ${newsLoading ? 'animate-spin' : ''}`} />
+                    <span>{newsLoading ? 'Loading...' : 'Next 10 Articles'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
 
-              <div className="space-y-6">
-                {[
-                  {
-                    title: "AI Revolution in Web Development",
-                    time: "2 hours ago",
-                    category: "AI",
-                  },
-                  {
-                    title: "New React 19 Features Released",
-                    time: "5 hours ago",
-                    category: "React",
-                  },
-                  {
-                    title: "The Future of TypeScript",
-                    time: "1 day ago",
-                    category: "TypeScript",
-                  },
-                  {
-                    title: "Web Performance Best Practices",
-                    time: "2 days ago",
-                    category: "Performance",
-                  },
-                ].map((article, index) => (
-                  <div key={index} className="border-b border-gray-200 pb-4">
-                    <div className="flex items-start justify-between">
-                      <div>
-                        <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                          {article.title}
-                        </h3>
-                        <div className="flex items-center space-x-4 text-sm text-gray-500">
-                          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">
-                            {article.category}
-                          </span>
-                          <span className="flex items-center">
-                            <Clock className="w-4 h-4 mr-1" />
-                            {article.time}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="w-20 h-16 bg-gray-200 rounded"></div>
+            <div className="flex-1 overflow-y-auto px-8 pb-8">
+              <div className="max-w-4xl mx-auto">
+                {newsLoading ? (
+                  <div className="flex items-center justify-center h-64">
+                    <div className="text-center">
+                      <RotateCw className="w-8 h-8 text-blue-500 animate-spin mx-auto mb-4" />
+                      <p className="text-gray-600">Loading latest tech news...</p>
                     </div>
                   </div>
-                ))}
+                ) : techNews.length === 0 ? (
+                  <div className="flex items-center justify-center h-64">
+                    <div className="text-center">
+                      <Globe className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                      <h3 className="text-lg font-medium text-gray-600 mb-2">No Tech News Available</h3>
+                      <p className="text-gray-500 mb-4">Unable to fetch latest tech news at the moment.</p>
+                      <button
+                        onClick={() => fetchTechNews(1, false)}
+                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
+                      >
+                        Try Again
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="space-y-6">
+                    {techNews.map((article, index) => (
+                      <motion.article
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: index * 0.1 }}
+                        className="bg-white border border-gray-200 rounded-lg p-6 hover:shadow-lg transition-shadow"
+                      >
+                        <div className="flex items-start justify-between">
+                          <div className="flex-1">
+                            <h3 className="text-xl font-semibold text-gray-900 mb-2 hover:text-blue-600 transition-colors">
+                              <a
+                                href={article.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="hover:underline"
+                              >
+                                {article.title}
+                              </a>
+                            </h3>
+                            <p className="text-gray-600 mb-4 line-clamp-2">
+                              {article.description}
+                            </p>
+                            <div className="flex items-center space-x-4 text-sm text-gray-500">
+                              <div className="flex items-center space-x-1">
+                                <Calendar className="w-4 h-4" />
+                                <span>{formatDate(article.publishedAt)}</span>
+                              </div>
+                              <div className="flex items-center space-x-1">
+                                <Globe className="w-4 h-4" />
+                                <span>{article.source?.name || 'Unknown Source'}</span>
+                              </div>
+                            </div>
+                          </div>
+                          <a
+                            href={article.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="ml-4 p-2 text-gray-400 hover:text-blue-500 transition-colors"
+                            title="Open article"
+                          >
+                            <ExternalLink className="w-5 h-5" />
+                          </a>
+                        </div>
+                      </motion.article>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -922,15 +1078,13 @@ export default function WindowContent({
     return (
       <div className="h-full bg-white flex flex-col">
         {/* Browser toolbar */}
-        <div className={`bg-gray-200 border-b border-gray-400 ${isMobile ? 'p-1' : 'p-2'} flex items-center space-x-2`}>
+        <div className={`bg-gray-100 border-b border-gray-300 px-${isMobile ? '2' : '4'} py-${isMobile ? '1' : '2'} flex items-center space-x-${isMobile ? '1' : '2'}`}>
           {/* Navigation buttons */}
           <div className="flex items-center space-x-1">
             <button
               onClick={handleBack}
               disabled={historyIndex <= 0}
-              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors ${
-                historyIndex <= 0 ? "opacity-50 cursor-not-allowed" : ""
-              }`}
+              className={`${isMobile ? 'p-1' : 'p-2'} rounded hover:bg-gray-300 transition-colors ${historyIndex <= 0 ? 'opacity-50 cursor-not-allowed' : ''}`}
               title="Back"
             >
               <ArrowLeft className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
@@ -938,18 +1092,14 @@ export default function WindowContent({
             <button
               onClick={handleForward}
               disabled={historyIndex >= history.length - 1}
-              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors ${
-                historyIndex >= history.length - 1
-                  ? "opacity-50 cursor-not-allowed"
-                  : ""
-              }`}
+              className={`${isMobile ? 'p-1' : 'p-2'} rounded hover:bg-gray-300 transition-colors ${historyIndex >= history.length - 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
               title="Forward"
             >
               <ArrowRight className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
             </button>
             <button
               onClick={handleRefresh}
-              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
+              className={`${isMobile ? 'p-1' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
               title="Refresh"
             >
               <RotateCw
@@ -960,7 +1110,7 @@ export default function WindowContent({
             </button>
             <button
               onClick={handleHome}
-              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
+              className={`${isMobile ? 'p-1' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
               title="Home"
             >
               <Home className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
@@ -968,13 +1118,13 @@ export default function WindowContent({
           </div>
 
           {/* Address bar */}
-          <form onSubmit={handleUrlSubmit} className="flex-1 flex items-center">
-            <div className={`flex-1 flex items-center bg-white border-2 border-gray-400 rounded-full ${isMobile ? 'px-2 py-0.5' : 'px-3 py-1'} focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500`}>
-              <div className="flex items-center space-x-2 mr-2">
+          <form onSubmit={handleUrlSubmit} className="flex-1 flex items-center min-w-0">
+            <div className={`flex-1 flex items-center bg-white border border-gray-400 rounded-lg ${isMobile ? 'px-1 py-0.5 h-6' : 'px-3 py-1'} focus-within:border-blue-500 focus-within:ring-1 focus-within:ring-blue-500 min-w-0`}>
+              <div className="flex items-center space-x-1 mr-1 flex-shrink-0">
                 {currentPage === "home" ? (
-                  <Globe className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-600`} />
+                  <Globe className={`${isMobile ? 'w-2.5 h-2.5' : 'w-4 h-4'} text-gray-600`} />
                 ) : (
-                  <Lock className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-green-600`} />
+                  <Lock className={`${isMobile ? 'w-2.5 h-2.5' : 'w-4 h-4'} text-green-600`} />
                 )}
               </div>
               <input
@@ -983,28 +1133,29 @@ export default function WindowContent({
                 onChange={(e) => setInputUrl(e.target.value)}
                 onFocus={() => setInputUrl("")}
                 onBlur={() => !inputUrl && setInputUrl("")}
-                className={`flex-1 outline-none ${isMobile ? 'text-xs' : 'text-sm'} text-gray-800`}
-                placeholder={isMobile ? "Search or type URL" : "Search Google or type a URL"}
+                className={`flex-1 outline-none ${isMobile ? 'text-xs' : 'text-sm'} text-gray-800 min-w-0 truncate`}
+                placeholder={isMobile ? "Search or enter URL" : "Search Google or type a URL"}
+                style={{ fontSize: isMobile ? '9px' : '14px', lineHeight: isMobile ? '1.2' : 'normal' }}
               />
               <button
                 type="submit"
-                className={`${isMobile ? 'p-0.5' : 'p-1'} hover:bg-gray-200 rounded`}
+                className={`${isMobile ? 'p-0.5' : 'p-1'} hover:bg-gray-200 rounded flex-shrink-0`}
                 title="Go"
               >
-                <Search className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-600`} />
+                <Search className={`${isMobile ? 'w-2.5 h-2.5' : 'w-4 h-4'} text-gray-600`} />
               </button>
             </div>
           </form>
 
           {/* Browser menu */}
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center space-x-1 flex-shrink-0">
             <button
-              className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
+              className={`${isMobile ? 'p-1' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}
               title="Bookmark"
             >
               <Bookmark className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'} text-gray-700`} />
             </button>
-            <button className={`${isMobile ? 'p-1.5' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}>
+            <button className={`${isMobile ? 'p-1' : 'p-2'} rounded hover:bg-gray-300 transition-colors`}>
               <div className={`${isMobile ? 'w-0.5 h-0.5' : 'w-1 h-1'} bg-gray-700 rounded-full`}></div>
               <div className={`${isMobile ? 'w-0.5 h-0.5' : 'w-1 h-1'} bg-gray-700 rounded-full mt-1`}></div>
               <div className={`${isMobile ? 'w-0.5 h-0.5' : 'w-1 h-1'} bg-gray-700 rounded-full mt-1`}></div>
@@ -1025,8 +1176,10 @@ export default function WindowContent({
         )}
 
         {/* Browser content */}
-        <div className="flex-1 relative overflow-hidden">
-          {renderPageContent()}
+        <div className="flex-1 relative overflow-hidden h-full">
+          <div className="h-full w-full">
+            {renderPageContent()}
+          </div>
         </div>
 
         {/* Status bar */}
@@ -2448,9 +2601,7 @@ export default function WindowContent({
               {selectedWorkProject.tech.map((tech: string) => (
                 <span
                   key={tech}
-                  className={`${
-                    isMobile ? "px-6 py-1 text-xs" : "px-8 py-1 text-xs"
-                  } bg-orange-900/30 border border-orange-400/30 rounded text-orange-200`}
+                  className="inline-block px-3 py-1 text-xs font-medium bg-orange-900/30 border border-orange-400/30 rounded-full text-orange-200 mb-1 mr-2"
                 >
                   {tech}
                 </span>
@@ -2566,7 +2717,7 @@ export default function WindowContent({
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className={`$${isMobile ? "px-6 py-1 text-xs" : "px-8 py-1 text-xs"} bg-orange-900/30 border border-orange-400/30 rounded text-orange-200`}
+                    className="inline-block px-3 py-1 text-xs font-medium bg-orange-900/30 border border-orange-400/30 rounded-full text-orange-200 mb-1 mr-2"
                   >
                     {tech}
                   </span>
@@ -2644,4 +2795,5 @@ export default function WindowContent({
       </motion.div>
     );
   }
+
 }
