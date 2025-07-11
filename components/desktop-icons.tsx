@@ -280,15 +280,23 @@ export default function DesktopIcons({
               onDragLeave={(e) => handleDragLeave(e, icon.id)}
               onDrop={(e) => handleDrop(e, icon.id)}
               onDragEnd={handleDragEnd}
+              // Prevent keyboard activation on mobile
+              tabIndex={-1}
+              role="button"
+              aria-label={icon.name}
               {...(icon.id === "sticky-note" && (icon as any).isStickyNote
                 ? {
-                    onPointerUp: () => {
+                    onPointerUp: (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       console.log('Sticky note icon clicked');
                       if (onStickyNoteIconClick) onStickyNoteIconClick();
                     },
                   }
                 : {
-                    onClick: () => {
+                    onClick: (e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
                       onOpenWindow({
                         title: icon.name,
                         content: icon.content,

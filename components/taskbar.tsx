@@ -33,14 +33,27 @@ export default function Taskbar({
       minute: "2-digit",
     });
 
+  // Debug log for mobile
+  console.log("Taskbar render:", { isMobile, minimizedWindows: minimizedWindows.length });
+
   return (
     <motion.div
       initial={{ y: 100 }}
       animate={{ y: 0 }}
-      className={`absolute bottom-0 left-0 right-0 ${
-        isMobile ? "h-14" : "h-12"
+      className={`fixed bottom-0 left-0 right-0 ${
+        isMobile ? "h-16" : "h-12"
       } bg-gray-900/95 border-t border-gray-700 flex items-center justify-between px-4`}
-      style={{ zIndex: 9999, pointerEvents: "auto" }}
+      style={{ 
+        zIndex: 9999, 
+        pointerEvents: "auto",
+        // Ensure visibility on mobile
+        position: "fixed",
+        bottom: 0,
+        left: 0,
+        right: 0,
+        // Add safe area padding for mobile
+        paddingBottom: isMobile ? "env(safe-area-inset-bottom, 0px)" : "0px"
+      }}
     >
       {/* Start Menu */}
       <div className="flex items-center space-x-4">
@@ -58,6 +71,10 @@ export default function Taskbar({
           } bg-gradient-to-br from-cyan-400 to-purple-500 rounded flex items-center justify-center text-white font-bold ${
             isMobile ? "text-base" : "text-sm"
           } cursor-pointer`}
+          // Prevent keyboard activation on mobile
+          tabIndex={-1}
+          role="button"
+          aria-label="Toggle Terminal"
         >
           N
         </motion.button>
@@ -96,6 +113,10 @@ export default function Taskbar({
                 isMobile ? "text-xs" : "text-sm"
               } flex items-center space-x-2 transition-all duration-200 whitespace-nowrap cursor-pointer select-none`}
               style={{ minHeight: "32px", minWidth: isMobile ? 0 : "80px" }}
+              // Prevent keyboard activation on mobile
+              tabIndex={-1}
+              role="button"
+              aria-label={`Restore ${window.title}`}
             >
               {window.icon && (
                 <window.icon
@@ -124,6 +145,10 @@ export default function Taskbar({
                 isMobile ? "text-xs" : "text-sm"
               } flex items-center space-x-2 transition-all duration-200 whitespace-nowrap cursor-pointer select-none`}
               style={{ minHeight: "32px", minWidth: isMobile ? 0 : "80px" }}
+              // Prevent keyboard activation on mobile
+              tabIndex={-1}
+              role="button"
+              aria-label="Restore Terminal"
             >
               <div className="w-3 h-3 bg-green-500 rounded-full"></div>
               <span className={isMobile ? "hidden sm:inline" : ""}>

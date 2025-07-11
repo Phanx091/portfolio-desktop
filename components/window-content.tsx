@@ -1217,28 +1217,6 @@ export default function WindowContent({
       document.body.removeChild(link);
     };
 
-    const handlePrint = () => {
-      // Google Drive file ID
-      const fileId = "16iLgjK685XztmBuPFwlZzTv2ssxSxEyk";
-
-      // Use Google Drive's direct PDF URL that opens in browser's PDF viewer
-      const directPdfUrl = `https://drive.google.com/uc?export=view&id=${fileId}`;
-
-      // Open PDF in new window - browser's built-in PDF viewer has print functionality
-      const printWindow = window.open(directPdfUrl, "_blank");
-
-      // Fallback: If that doesn't work, open the regular view and show instructions
-      if (!printWindow) {
-        alert(
-          "Please allow popups and try again, or manually open the PDF and use Ctrl+P to print.",
-        );
-        window.open(
-          `https://drive.google.com/file/d/${fileId}/view?usp=sharing`,
-          "_blank",
-        );
-      }
-    };
-
     return (
       <motion.div
         variants={containerVariants}
@@ -1309,27 +1287,6 @@ export default function WindowContent({
               />
             </svg>
             <span>Download PDF</span>
-          </button>
-          <button
-            onClick={handlePrint}
-            className={`${
-              isMobile ? "px-4 py-3 text-sm" : "px-6 py-3"
-            } bg-gray-700 hover:bg-gray-600 rounded-lg transition-colors flex items-center justify-center space-x-2 font-medium`}
-          >
-            <svg
-              className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`}
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"
-              />
-            </svg>
-            <span>Print</span>
           </button>
         </motion.div>
 

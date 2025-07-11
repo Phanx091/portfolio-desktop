@@ -30,7 +30,13 @@ export default function Desktop() {
 
   useEffect(() => {
     const checkViewport = () => {
-      setIsMobile(window.innerWidth < 768);
+      const newIsMobile = window.innerWidth < 768;
+      console.log("Desktop: Viewport check:", { 
+        width: window.innerWidth, 
+        height: window.innerHeight, 
+        isMobile: newIsMobile 
+      });
+      setIsMobile(newIsMobile);
       setViewportWidth(window.innerWidth);
       setViewportHeight(window.innerHeight);
     };
