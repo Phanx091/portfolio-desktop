@@ -250,7 +250,7 @@ export default function Terminal() {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 0.5 }}
-      className="bg-black/90 border border-cyan-400/30 rounded-lg p-4 font-mono text-sm h-full overflow-hidden flex flex-col"
+      className="bg-black/90 border border-cyan-400/30 rounded-lg p-4 font-mono text-xs h-full overflow-hidden flex flex-col"
     >
       <div className="flex items-center mb-2 pb-2 border-b border-gray-700">
         <div className="flex space-x-2">

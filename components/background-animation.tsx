@@ -68,27 +68,6 @@ export default function BackgroundAnimation({ mousePosition, disableMouseEffect 
           background: `radial-gradient(circle at ${effectiveMousePosition.x}px ${effectiveMousePosition.y}px, rgba(59, 130, 246, 0.1) 0%, transparent 50%)`,
         }}
       />
-
-      {/* Flowing Code Effect - Only show when no windows are open */}
-      {!disableMouseEffect && (
-        <div className="absolute inset-0 opacity-3">
-          <motion.div
-            animate={{ y: [-100, (typeof window !== 'undefined' ? window.innerHeight : 1080) + 100] }}
-            transition={{ duration: 30, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-            className="text-green-400 font-mono text-xs whitespace-pre-line"
-          >
-            {`const portfolio = {
-  name: "Frontend Engineer",
-  skills: ["React", "Next.js", "TypeScript"],
-  passion: "Creating amazing experiences"
-};
-
-function buildFuture() {
-  return innovation + creativity;
-}`}
-          </motion.div>
-        </div>
-      )}
     </div>
   )
 }

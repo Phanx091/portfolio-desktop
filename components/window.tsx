@@ -166,7 +166,7 @@ export default function Window({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        drag={!isMaximized && !isResizing}
+        drag={!isMaximized && !isResizing && !isMobile}
         dragMomentum={false}
         dragConstraints={constraintsRef}
         onDragStart={() => setIsDragging(true)}

@@ -9,6 +9,7 @@ import Taskbar from "@/components/taskbar";
 import BackgroundAnimation from "@/components/background-animation";
 import UpdateNotification from "@/components/update-notification";
 import TerminalCommandsNote from "@/components/terminal-commands-note";
+import { FileText } from "lucide-react";
 import styles from "@/styles/components/Desktop.module.css";
 
 export default function Desktop() {
@@ -19,6 +20,7 @@ export default function Desktop() {
   const [isMobile, setIsMobile] = useState(false);
   const [viewportWidth, setViewportWidth] = useState(1920); // Default fallback
   const [viewportHeight, setViewportHeight] = useState(1080); // Default fallback
+  const [isStickyNoteOpen, setIsStickyNoteOpen] = useState(false);
 
   // Check if any windows are open (not minimized)
   const hasOpenWindows = windows.length > 0;
@@ -243,6 +245,15 @@ export default function Desktop() {
           onMoveToTrash={moveToTrash}
           onRestoreFromTrash={restoreFromTrash}
           isMobile={isMobile}
+          showStickyNoteIcon={isMobile}
+          onStickyNoteIconClick={isMobile ? () => {
+            console.log('Opening commands window');
+            openWindow({
+              title: "Commands",
+              content: "commands",
+              icon: FileText,
+            });
+          } : undefined}
         />
       </div>
 
@@ -250,16 +261,13 @@ export default function Desktop() {
       <div
         className={
           isMobile
-            ? "absolute bottom-20 left-4 right-4 h-80"
+            ? "fixed bottom-16 left-2 right-2 h-80 max-w-full"
             : "absolute top-8 right-8 w-96 h-96"
         }
         style={{ zIndex: 10 }} // Terminal above icons but below windows
       >
         <Terminal />
       </div>
-
-      {/* Terminal Commands Note - positioned relative to terminal */}
-      <TerminalCommandsNote isMobile={isMobile} />
 
       {/* Windows - Highest z-index */}
       <WindowManager
@@ -281,6 +289,23 @@ export default function Desktop() {
 
       {/* Update Notification - High z-index but below taskbar */}
       <UpdateNotification isMobile={isMobile} />
+
+      {/* Terminal Commands Note - floating overlay on mobile, original location on desktop */}
+      {isMobile ? (
+        isStickyNoteOpen && (
+          <div className="fixed bottom-[38rem] left-2 right-2 max-w-xs w-full max-h-56 overflow-y-auto z-30 mx-auto">
+            <TerminalCommandsNote
+              isMobile={isMobile}
+              isOpen={isStickyNoteOpen}
+              onClose={() => setIsStickyNoteOpen(false)}
+            />
+          </div>
+        )
+      ) : (
+        <div className="absolute top-[20px] right-0 w-96 z-20">````
+          <TerminalCommandsNote isMobile={isMobile} />
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import type React from "react";
+import React from "react";
 
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -74,6 +74,8 @@ interface DesktopIconsProps {
   onMoveToTrash: (item: any) => void;
   onRestoreFromTrash: (itemId: string) => void;
   isMobile?: boolean;
+  showStickyNoteIcon?: boolean;
+  onStickyNoteIconClick?: () => void;
 }
 
 export default function DesktopIcons({
@@ -82,6 +84,8 @@ export default function DesktopIcons({
   onMoveToTrash,
   onRestoreFromTrash,
   isMobile = false,
+  showStickyNoteIcon = false,
+  onStickyNoteIconClick,
 }: DesktopIconsProps) {
   const [draggedItem, setDraggedItem] = useState<any>(null);
   const [isOverTrash, setIsOverTrash] = useState(false);
@@ -94,7 +98,18 @@ export default function DesktopIcons({
     (icon) => !trashedItems.some((trashedItem) => trashedItem.id === icon.id),
   );
 
-  const allIcons = [...visibleIcons, trashIcon];
+  let allIcons = [...visibleIcons];
+  if (isMobile && showStickyNoteIcon) {
+    allIcons.push({
+      id: "sticky-note",
+      name: "Commands",
+      icon: null,
+      color: "text-yellow-500",
+      content: "sticky-note",
+      isStickyNote: true,
+    } as any);
+  }
+  allIcons.push(trashIcon);
 
   // Get theme-based colors
   const getThemeColors = () => {
@@ -258,27 +273,50 @@ export default function DesktopIcons({
               }}
               whileTap={{ scale: 0.95 }}
               className="flex flex-col items-center cursor-pointer group"
-              draggable={icon.id !== "trash"}
+              draggable={icon.id !== "trash" && !(icon.id === "sticky-note" && (icon as any).isStickyNote)}
               onDragStart={(e) => handleDragStart(e as unknown as React.DragEvent<HTMLDivElement>, icon)}
               onDragOver={handleDragOver}
               onDragEnter={(e) => handleDragEnter(e, icon.id)}
               onDragLeave={(e) => handleDragLeave(e, icon.id)}
               onDrop={(e) => handleDrop(e, icon.id)}
               onDragEnd={handleDragEnd}
-              onClick={() =>
-                onOpenWindow({
-                  title: icon.name,
-                  content: icon.content,
-                  icon: icon.icon,
-                })
-              }
+              {...(icon.id === "sticky-note" && (icon as any).isStickyNote
+                ? {
+                    onPointerUp: () => {
+                      console.log('Sticky note icon clicked');
+                      if (onStickyNoteIconClick) onStickyNoteIconClick();
+                    },
+                  }
+                : {
+                    onClick: () => {
+                      onOpenWindow({
+                        title: icon.name,
+                        content: icon.content,
+                        icon: icon.icon,
+                      });
+                    },
+                  })}
             >
               <motion.div
                 className="relative"
                 whileHover={{ y: isMobile ? -2 : -5 }}
                 transition={{ type: "spring", stiffness: 400, damping: 10 }}
               >
-                {icon.id === "trash" ? (
+                {(icon.id === "sticky-note" && (icon as any).isStickyNote) ? (
+                  <div className={`${isMobile ? "w-12 h-12" : "w-16 h-16"} bg-yellow-100 border-2 border-yellow-300 rounded-lg flex items-center justify-center relative shadow-xl`}>
+                    <div className="relative w-10 h-10">
+                      {/* Sticky note base */}
+                      <div className="w-full h-full bg-yellow-200 border-2 border-yellow-400 rounded-lg shadow-xl transform rotate-2" />
+                      {/* Dog-ear */}
+                      <div className="absolute top-0 right-0 w-4 h-4 bg-yellow-100 border-t-2 border-r-2 border-yellow-300 rounded-tr-lg" style={{clipPath:'polygon(100% 0, 0 0, 100% 100%)'}} />
+                      {/* Lines and dots for realism */}
+                      <div className="absolute top-2 left-2 w-6 h-1 bg-yellow-300 rounded-full opacity-80" />
+                      <div className="absolute top-4 left-2 w-8 h-1 bg-yellow-300 rounded-full opacity-60" />
+                      <div className="absolute top-6 left-2 w-7 h-1 bg-yellow-300 rounded-full opacity-40" />
+                      <div className="absolute bottom-2 left-2 w-4 h-1 bg-yellow-300 rounded-full opacity-30" />
+                    </div>
+                  </div>
+                ) : icon.id === "trash" ? (
                   // Trash icon with special styling
                   <motion.div
                     className={`${
@@ -294,11 +332,9 @@ export default function DesktopIcons({
                       className={`absolute inset-0 opacity-0 group-hover:opacity-100 ${themeColors.hover}`}
                       transition={{ duration: 0.3 }}
                     />
-                    <icon.icon
-                      className={`${
-                        isMobile ? "w-6 h-6" : "w-8 h-8"
-                      } relative z-10 text-white`}
-                    />
+                    {icon.icon ? React.createElement(icon.icon, {
+                      className: `${isMobile ? "w-6 h-6" : "w-8 h-8"} relative z-10 text-white`,
+                    }) : null}
                     {trashedItems.length > 0 && (
                       <motion.div
                         className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 rounded-full flex items-center justify-center text-white text-xs font-bold border-2 border-white shadow-lg"
@@ -311,34 +347,30 @@ export default function DesktopIcons({
                     )}
                   </motion.div>
                 ) : (
-                  // Regular icons with theme-based styling
-                  <motion.div
-                    className={`${
-                      isMobile ? "w-12 h-12" : "w-16 h-16"
-                    } bg-gradient-to-br ${themeColors.primary} rounded-lg border ${themeColors.border} flex items-center justify-center relative overflow-hidden`}
-                    animate={{
-                      scale: isUpdating ? [1, 1.05, 1] : 1,
-                    }}
-                    transition={{
-                      scale: {
-                        duration: 2,
-                        repeat: isUpdating ? Infinity : 0,
-                        ease: "easeInOut",
-                      },
-                    }}
-                  >
+                  icon.icon ? (
                     <motion.div
-                      className={`absolute inset-0 opacity-0 group-hover:opacity-100 ${themeColors.hover}`}
-                      transition={{ duration: 0.3 }}
-                    />
-                    <icon.icon
-                      className={`${
-                        isMobile ? "w-6 h-6" : "w-8 h-8"
-                      } relative z-10 text-white`}
-                    />
-                  </motion.div>
+                      className={`${isMobile ? "w-12 h-12" : "w-16 h-16"} bg-gradient-to-br ${themeColors.primary} rounded-lg border ${themeColors.border} flex items-center justify-center relative overflow-hidden`}
+                      animate={{
+                        scale: isUpdating ? [1, 1.05, 1] : 1,
+                      }}
+                      transition={{
+                        scale: {
+                          duration: 2,
+                          repeat: isUpdating ? Infinity : 0,
+                          ease: "easeInOut",
+                        },
+                      }}
+                    >
+                      <motion.div
+                        className={`absolute inset-0 opacity-0 group-hover:opacity-100 ${themeColors.hover}`}
+                        transition={{ duration: 0.3 }}
+                      />
+                      {React.createElement(icon.icon, {
+                        className: `${isMobile ? "w-6 h-6" : "w-8 h-8"} relative z-10 text-white`,
+                      })}
+                    </motion.div>
+                  ) : null
                 )}
-
                 <motion.div
                   className={`absolute -inset-1 bg-gradient-to-r ${themeColors.glow} rounded-lg opacity-0 group-hover:opacity-30`}
                   transition={{ duration: 0.3 }}
@@ -353,7 +385,7 @@ export default function DesktopIcons({
                     : `group-hover:${themeColors.text}`
                 }`}
               >
-                {icon.name}
+                {(icon.id === "sticky-note" && (icon as any).isStickyNote) ? "Commands" : icon.name}
               </span>
             </motion.div>
           ))}

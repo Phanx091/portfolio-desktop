@@ -192,7 +192,7 @@ export default function WindowContent({
       ],
       company: "Minnesota Public Radio",
       duration: "2024 - 2024",
-      team: "Frontend development team",
+      team: "Frontend Dev Team",
       url: "https://www.mprnews.org/",
       screenshots: [
         "/images/mprnews/mprnews-1.png",
@@ -234,7 +234,7 @@ export default function WindowContent({
       ],
       company: "Minnesota Public Radio",
       duration: "2024 - 2024",
-      team: "Frontend Development Team",
+      team: "Frontend Dev Team",
       url: "https://www.thecurrent.org/",
       screenshots: [
         "/images/thecurrent/thecurrent-1.png",
@@ -271,7 +271,7 @@ export default function WindowContent({
       ],
       company: "American Public Media Group",
       duration: "2024 - 2025",
-      team: "Frontend Development Team",
+      team: "Frontend Dev Team",
       url: "https://www.marketplace.org/",
       screenshots: [
         "/images/marketplace/marketplace-1.png",
@@ -304,7 +304,7 @@ export default function WindowContent({
       ],
       company: "American Public Media",
       duration: "2018 - Present",
-      team: "Frontend Development Team",
+      team: "Frontend Dev Team",
       url: "https://www.yourclassical.org/",
       screenshots: [
         "/images/yourclassical/yourclassical-1.png",
@@ -341,7 +341,7 @@ export default function WindowContent({
       ],
       company: "Minnesota Public Radio",
       duration: "2023 - 2023",
-      team: "Frontend Development Team",
+      team: "Frontend Dev Team",
       url: "https://www.carbonsound.fm/",
       screenshots: [
         "/images/carbonsound/carbonsound-1.png",
@@ -1955,7 +1955,7 @@ export default function WindowContent({
                 <span
                   key={tech}
                   className={`${
-                    isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"
+                    isMobile ? "px-4 py-1 text-xs" : "px-5 py-1 text-xs"
                   } bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200`}
                 >
                   {tech}
@@ -2073,7 +2073,7 @@ export default function WindowContent({
                   <span
                     key={tech}
                     className={`${
-                      isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"
+                      isMobile ? "px-4 py-1 text-xs" : "px-5 py-1 text-xs"
                     } bg-cyan-900/30 border border-cyan-400/30 rounded text-cyan-200`}
                   >
                     {tech}
@@ -2492,7 +2492,7 @@ export default function WindowContent({
                 <span
                   key={tech}
                   className={`${
-                    isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"
+                    isMobile ? "px-6 py-1 text-xs" : "px-8 py-1 text-xs"
                   } bg-orange-900/30 border border-orange-400/30 rounded text-orange-200`}
                 >
                   {tech}
@@ -2609,7 +2609,7 @@ export default function WindowContent({
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className={`$${isMobile ? "px-2 py-1 text-xs" : "px-3 py-1 text-xs"} bg-orange-900/30 border border-orange-400/30 rounded text-orange-200`}
+                    className={`$${isMobile ? "px-6 py-1 text-xs" : "px-8 py-1 text-xs"} bg-orange-900/30 border border-orange-400/30 rounded text-orange-200`}
                   >
                     {tech}
                   </span>
@@ -2618,6 +2618,72 @@ export default function WindowContent({
             </motion.div>
           ))}
         </div>
+      </motion.div>
+    );
+  }
+
+  // Commands content
+  if (type === "commands") {
+    const commands = [
+      { command: "ls", description: "List directory contents" },
+      { command: "ls -la", description: "Detailed file listing" },
+      { command: "pwd", description: "Print working directory" },
+      { command: "whoami", description: "Show current user" },
+      { command: "date", description: "Show current date/time" },
+      { command: "cat about.txt", description: "View about file" },
+      { command: "cat contact.md", description: "View contact info" },
+      { command: "ls skills", description: "List skills directory" },
+      { command: "ls projects", description: "List projects directory" },
+      { command: "ls portfolio", description: "List portfolio directory" },
+      { command: "echo $STATUS", description: "Show availability status" },
+      { command: "echo $SKILLS", description: "Show skills list" },
+      { command: "help", description: "Show all commands" },
+      { command: "clear", description: "Clear terminal screen" },
+    ];
+
+    return (
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className={`${isMobile ? "p-4" : "p-6"} bg-yellow-100 border-2 border-yellow-300 rounded-lg shadow-lg font-mono`}
+      >
+        <motion.div variants={itemVariants} className="mb-6">
+          <div className="flex items-center space-x-2 mb-4">
+            <FileText className="w-6 h-6 text-yellow-700" />
+            <h2 className={`${isMobile ? "text-xl" : "text-2xl"} font-bold text-yellow-900`}>
+              Terminal Commands
+            </h2>
+          </div>
+          <p className="text-yellow-700 text-sm mb-4">
+            Type these commands in the terminal to explore the portfolio!
+          </p>
+        </motion.div>
+
+        <motion.div variants={itemVariants}>
+          <div className="space-y-2">
+            {commands.map((cmd, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                className="flex justify-between items-start p-2 bg-yellow-200 rounded border border-yellow-300 hover:bg-yellow-300 transition-colors"
+              >
+                <code className="text-yellow-900 font-mono text-sm px-2 py-1 rounded font-semibold bg-yellow-100 border border-yellow-400 whitespace-nowrap">
+                  {cmd.command}
+                </code>
+                <span className="text-yellow-700 text-sm text-right ml-2 flex-shrink-0 max-w-[60%]">
+                  {cmd.description}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        <motion.div variants={itemVariants} className="mt-6 pt-4 border-t border-yellow-300">
+          <p className="text-yellow-600 text-xs italic">
+            💡 Tip: Open the terminal and try these commands to explore the portfolio!
+          </p>
+        </motion.div>
       </motion.div>
     );
   }
